@@ -7,6 +7,6 @@
 <% if serveraliases != "" -%>
     ServerAlias <%= serveraliases %>
 <% end -%>
-    ErrorLog  <%= scope.lookupvar('apache::log_dir')%>/<%= name %>-error_log
-    CustomLog <%= scope.lookupvar('apache::log_dir')%>/<%= name %>-access_log common
+    ErrorLog  <%= scope.lookupvar('apache::log_dir') %>/<%= name %>-error_log
+    CustomLog <%= scope.lookupvar('apache::log_dir') %>/<%= name %>-access_log common
 </VirtualHost>

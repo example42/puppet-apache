@@ -43,6 +43,8 @@ define apache::vhost (
 
   $ensure = bool2ensure($enable)
 
+  include apache
+
   file { "${apache::vdir}/${priority}-${name}.conf":
     ensure  => $ensure,
     content => template($template),
