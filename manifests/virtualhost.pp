@@ -30,7 +30,7 @@ define apache::virtualhost (
   $create_docroot = true ,
   $enable         = true ) {
 
-  require apache
+  include apache
 
   $real_filename = $filename ? {
     ''      => $name,
