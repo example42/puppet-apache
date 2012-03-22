@@ -28,7 +28,9 @@ define apache::virtualhost (
   $filename       = '' ,
   $aliases        = '' ,
   $create_docroot = true ,
-  $enable         = true ) {
+  $enable         = true ,
+  $owner		  = '' ,
+  $groupowner	  = '' , ) {
 
   include apache
 
@@ -41,6 +43,16 @@ define apache::virtualhost (
     ''      =>  "${apache::data_dir}/${name}",
     default => $documentroot,
   }
+
+  $real_owner = $owner ? {
+	''		=> "${apache::config_file_owner}",
+	default	=> $owner,
+  }
+
+  $real_groupowner = $groupowner ? {
+	''		=> "${apache::config_file_group}",
+	default	=> $groupowner,
+}
 
   $real_path = $::operatingsystem ? {
     /(?i:Debian|Ubuntu|Mint)/ => "${apache::vdir}/${real_filename}",
@@ -84,8 +96,8 @@ define apache::virtualhost (
   if $bool_create_docroot == true {
     file { $real_documentroot:
       ensure => directory,
-      owner  => $apache::config_file_owner,
-      group  => $apache::config_file_group,
+      owner  => $real_owner,
+      group  => $real_groupowner,
       mode   => '0775',
     }
   }
