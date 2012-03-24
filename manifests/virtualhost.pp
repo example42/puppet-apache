@@ -29,8 +29,8 @@ define apache::virtualhost (
   $aliases        = '' ,
   $create_docroot = true ,
   $enable         = true ,
-  $owner		  = '' ,
-  $groupowner	  = '' , ) {
+  $owner          = '' ,
+  $groupowner     = '' ) {
 
   include apache
 
@@ -45,13 +45,13 @@ define apache::virtualhost (
   }
 
   $real_owner = $owner ? {
-	''		=> "${apache::config_file_owner}",
-	default	=> $owner,
+        ''      => $apache::config_file_owner,
+        default => $owner,
   }
 
   $real_groupowner = $groupowner ? {
-	''		=> "${apache::config_file_group}",
-	default	=> $groupowner,
+        ''      => $apache::config_file_group,
+        default => $groupowner,
 }
 
   $real_path = $::operatingsystem ? {
