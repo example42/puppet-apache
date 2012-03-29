@@ -410,8 +410,8 @@ class apache (
   ### Firewall management, if enabled ( firewall => true )
   if $apache::bool_firewall == true {
     firewall { "apache_${apache::protocol}_${apache::port}":
-      source      => $apache::firewall_source,
-      destination => $apache::firewall_destination,
+      source      => $apache::firewall_src,
+      destination => $apache::firewall_dst,
       protocol    => $apache::protocol,
       port        => $apache::port,
       action      => 'allow',
