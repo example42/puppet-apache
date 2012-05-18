@@ -7,7 +7,10 @@
 #   The port to configure the host on
 #
 # [*docroot*]
-#   The VirtualHost DocumentaRoot
+#   The VirtualHost DocumentRoot
+#
+# [*docroot_create*]
+#   If the specified directory has to be created. Default: false
 #
 # [*ssl*]
 #   Set to true to enable SSL for this Virtual Host
@@ -34,14 +37,18 @@
 #
 define apache::vhost (
   $docroot,
-  $port          = '80',
-  $ssl           = false,
-  $template      = 'apache/virtualhost/vhost.conf.erb',
-  $priority      = '50',
-  $serveraliases = '',
-  $enable        = true ) {
+  $docroot_create = false,
+  $docroot_owner  = 'root',
+  $docroot_group  = 'root',
+  $port           = '80',
+  $ssl            = false,
+  $template       = 'apache/virtualhost/vhost.conf.erb',
+  $priority       = '50',
+  $serveraliases  = '',
+  $enable         = true ) {
 
   $ensure = bool2ensure($enable)
+  $bool_docroot_create = any2bool($docroot_create)
 
   include apache
 
@@ -74,4 +81,12 @@ define apache::vhost (
     default: { }
   }
 
+  if $bool_docroot_create == true {
+    file { $docroot:
+      ensure => directory,
+      owner  => $docroot_owner,
+      group  => $docroot_group,
+      mode   => '0775',
+    }
+  }
 }
