@@ -7,15 +7,15 @@ class apache::passenger {
   include apache
 
   case $::operatingsystem {
-    ubuntu,debian,mint: { 
+    ubuntu,debian,mint: {
       package { 'libapache2-mod-passenger':
         ensure => present;
-      }     
+      }
 
       exec { 'enable-passenger':
         command => '/usr/sbin/a2enmod passenger',
         creates => '/etc/apache2/mods-enabled/passenger.load',
-        notify => Service['apache'],
+        notify  => Service['apache'],
       }
     }
 
@@ -24,6 +24,8 @@ class apache::passenger {
         ensure => present;
       }
     }
+
+    default: { }
   }
 
 }
