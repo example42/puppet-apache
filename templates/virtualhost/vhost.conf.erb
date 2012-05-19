@@ -2,7 +2,7 @@
 
 <VirtualHost *:<%= port %>>
     ServerAdmin webmaster@<%= name %>
-    DocumentRoot <%= docroot %>
+    DocumentRoot <%= real_docroot %>
     ServerName <%= name %>
 <% if serveraliases != "" -%>
     ServerAlias <%= serveraliases %>

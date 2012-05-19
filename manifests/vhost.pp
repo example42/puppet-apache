@@ -36,7 +36,7 @@
 #  }
 #
 define apache::vhost (
-  $docroot,
+  $docroot        = '',
   $docroot_create = false,
   $docroot_owner  = 'root',
   $docroot_group  = 'root',
@@ -49,6 +49,11 @@ define apache::vhost (
 
   $ensure = bool2ensure($enable)
   $bool_docroot_create = any2bool($docroot_create)
+
+  $real_docroot = $docroot ? {
+    ''      => "${apache::data_dir}/${name}",
+    default => $docroot,
+  }
 
   include apache
 
@@ -82,7 +87,7 @@ define apache::vhost (
   }
 
   if $bool_docroot_create == true {
-    file { $docroot:
+    file { $real_docroot:
       ensure => directory,
       owner  => $docroot_owner,
       group  => $docroot_group,
