@@ -53,11 +53,12 @@ define apache::module (
   $install_package = false,
   $notify_service  = true ) {
 
+  include apache
+
   $manage_service_autorestart = $notify_service ? {
     true    => 'Service[apache]',
     false   => undef,
   }
-
 
   if $install_package != false {
     $modpackage_basename = $::operatingsystem ? {
@@ -88,9 +89,9 @@ define apache::module (
     file { "ApacheModule_${name}_conf":
       ensure  => present ,
       path    => $module_conf_path,
-      mode    => $apache::configfile_mode,
-      owner   => $apache::configfile_owner,
-      group   => $apache::configfile_group,
+      mode    => $apache::config_file_mode,
+      owner   => $apache::config_file_owner,
+      group   => $apache::config_file_group,
       content => template($templatefile),
       notify  => $manage_service_autorestart,
       require => Package['apache'],
