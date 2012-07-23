@@ -292,7 +292,9 @@ class apache (
     default => 'present',
   }
 
-  if $apache::bool_absent == true or $apache::bool_disable == true or $apache::bool_disableboot == true {
+  if $apache::bool_absent == true
+  or $apache::bool_disable == true
+  or $apache::bool_disableboot == true {
     $manage_monitor = false
   } else {
     $manage_monitor = true
