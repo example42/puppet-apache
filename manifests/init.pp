@@ -362,7 +362,7 @@ class apache (
       notify  => $apache::manage_service_autorestart,
       source  => $apache::source_dir,
       recurse => true,
-      purge   => $apache::source_dir_purge,
+      purge   => $bool_source_dir_purge,
       replace => $apache::manage_file_replace,
       audit   => $apache::manage_audit,
     }
