@@ -292,7 +292,9 @@ class apache (
     default => 'present',
   }
 
-  if $apache::bool_absent == true or $apache::bool_disable == true or $apache::bool_disableboot == true {
+  if $apache::bool_absent == true
+  or $apache::bool_disable == true
+  or $apache::bool_disableboot == true {
     $manage_monitor = false
   } else {
     $manage_monitor = true
@@ -362,7 +364,7 @@ class apache (
       notify  => $apache::manage_service_autorestart,
       source  => $apache::source_dir,
       recurse => true,
-      purge   => $apache::source_dir_purge,
+      purge   => $bool_source_dir_purge,
       replace => $apache::manage_file_replace,
       audit   => $apache::manage_audit,
     }
