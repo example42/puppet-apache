@@ -16,6 +16,10 @@ class apache::passenger {
         command => '/usr/sbin/a2enmod passenger',
         creates => '/etc/apache2/mods-enabled/passenger.load',
         notify  => Service['apache'],
+        require => [
+          Package['apache'],
+          Package['libapache2-mod-passenger'],
+        ],
       }
     }
 
