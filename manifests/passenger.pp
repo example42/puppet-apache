@@ -18,7 +18,7 @@ class apache::passenger {
         notify  => Service['apache'],
         require => [
           Package['apache'],
-          Package['libapache2-mod-passenger'],
+          Package['libapache2-mod-passenger']
         ],
       }
     }
