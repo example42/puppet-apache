@@ -12,6 +12,7 @@ class apache::ssl {
         command => '/usr/sbin/a2enmod ssl',
         creates => '/etc/apache2/mods-enabled/ssl.load',
         notify  => Service['apache'],
+        require => Package['apache'],
       }
     }
 
