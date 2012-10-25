@@ -24,6 +24,12 @@ class apache::passenger {
     }
 
     centos,redhat,scientific,fedora: {
+      $osver = split($::operatingsystemrelease, '[.]')
+
+      case $osver[0] {
+        5: { require yum::repo::passenger }
+        default: { }
+      }
       package { 'mod_passenger':
         ensure => present;
       }

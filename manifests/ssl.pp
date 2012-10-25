@@ -20,7 +20,7 @@ class apache::ssl {
       package { 'mod_ssl':
         ensure  => present,
         require => Package['apache'],
-        notify  => Class['apache'],
+        notify  => Service['apache'],
       }
       file { "${apache::configdir}/ssl.conf":
         mode   => '0644',
