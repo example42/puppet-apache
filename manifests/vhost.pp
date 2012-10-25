@@ -88,10 +88,11 @@ define apache::vhost (
 
   if $bool_docroot_create == true {
     file { $real_docroot:
-      ensure => directory,
-      owner  => $docroot_owner,
-      group  => $docroot_group,
-      mode   => '0775',
+      ensure  => directory,
+      owner   => $docroot_owner,
+      group   => $docroot_group,
+      mode    => '0775',
+      require => Package['apache'],
     }
   }
 }
