@@ -25,10 +25,25 @@
 #   Can be defined also by the (top scope) variable $apache_source_dir
 #
 # [*source_dir_purge*]
-#   If set to true (default false) the existing configuration directory is
-#   mirrored with the content retrieved from source_dir
+#   If set to true (default false) non-managed files will be purged 
+#   from the configuration directory
+#   Without this, previously created vhosts will _not_ be removed automatically.
 #   (source => $source_dir , recurse => true , purge => true)
 #   Can be defined also by the (top scope) variable $apache_source_dir_purge
+#
+# [*source_dir_force*]
+#   If set to true (default false) non-managed directories will be purged
+#   from the configuration directory.
+#   (source => $source_dir , recurse => true , purge => true, force => true)
+#   Can be defined also by the (top scope) variable $apache_source_dir_force
+#
+# [*source_dir_purge_os*]
+#   If set to false (default false) directories used by the packaging system 
+#   will not be purged. Currently this is:
+#
+#  Debian/Ubuntu: ${apache::config_dir}/mods-available
+#   
+#   Can be defined also by the (top scope) variable $apache_source_dir_purge_os
 #
 # [*template*]
 #   Sets the path to the template to use as content for main configuration file
@@ -203,6 +218,8 @@ class apache (
   $source              = params_lookup( 'source' ),
   $source_dir          = params_lookup( 'source_dir' ),
   $source_dir_purge    = params_lookup( 'source_dir_purge' ),
+  $source_dir_force    = params_lookup( 'source_dir_force' ),
+  $source_dir_purge_os = params_lookup( 'source_dir_purge_os' ),
   $template            = params_lookup( 'template' ),
   $service_autorestart = params_lookup( 'service_autorestart' , 'global' ),
   $options             = params_lookup( 'options' ),
@@ -241,6 +258,8 @@ class apache (
   ) inherits apache::params {
 
   $bool_source_dir_purge=any2bool($source_dir_purge)
+  $bool_source_dir_force=any2bool($source_dir_force)
+  $bool_source_dir_purge_os=any2bool($source_dir_purge_os)
   $bool_service_autorestart=any2bool($service_autorestart)
   $bool_absent=any2bool($absent)
   $bool_disable=any2bool($disable)
@@ -365,11 +384,26 @@ class apache (
       source  => $apache::source_dir,
       recurse => true,
       purge   => $apache::bool_source_dir_purge,
+      force   => $apache::bool_source_dir_force,
       replace => $apache::manage_file_replace,
       audit   => $apache::manage_audit,
     }
+    if $apache::bool_source_dir_purge {
+      if $apache::bool_source_dir_purge_os == false {
+        case $::operatingsystem {
+          /(?i:Ubuntu|Debian|Mint)/: {
+            file { 'apache.dir.mods-available':
+              ensure => directory,
+              path   => $apache::config_dir,
+              mode   => $apache::config_file_mode,
+              owner  => $apache::config_file_owner,
+              group  => $apache::config_file_group
+            }
+          }
+        }
+      }
+    }
   }
-
 
   ### Include custom class if $my_class is set
   if $apache::my_class {

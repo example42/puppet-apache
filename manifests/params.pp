@@ -109,6 +109,8 @@ class apache::params {
   $source = ''
   $source_dir = ''
   $source_dir_purge = false
+  $source_dir_force = false
+  $source_dir_purge_os = false
   $template = ''
   $options = ''
   $service_autorestart = true
