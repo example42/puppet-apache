@@ -406,18 +406,18 @@ class apache (
               path    => "${apache::config_dir}/mods-available",
               mode    => $apache::config_file_mode,
               owner   => $apache::config_file_owner,
-              group   => $apache::config_file_group
+              group   => $apache::config_file_group,
               require => Package['apache'],
-              notify  => $apache::manage_service_autorestart,
+              notify  => $apache::manage_service_autorestart
             }
             file { 'apache.dir.mods-enabled':
               ensure  => directory,
               path    => "${apache::config_dir}/mods-enabled",
               mode    => $apache::config_file_mode,
               owner   => $apache::config_file_owner,
-              group   => $apache::config_file_group
+              group   => $apache::config_file_group,
               require => Package['apache'],
-              notify  => $apache::manage_service_autorestart,
+              notify  => $apache::manage_service_autorestart
             }
           }
         }
