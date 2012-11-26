@@ -48,6 +48,8 @@
 #
 #  Debian/Ubuntu: ${apache::config_dir}/mods-available
 #                 ${apache::config_dir}/mods-enabled
+#                 ${apache::config_dir}/sites-available
+#                 ${apache::config_dir}/sites-enabled
 #   
 #   Can be defined also by the (top scope) variable $apache_source_dir_purge_os
 #
@@ -385,6 +387,9 @@ class apache (
     file { 'apache.dir':
       ensure  => directory,
       path    => $apache::config_dir,
+      mode    => $apache::config_file_mode,
+      owner   => $apache::config_file_owner,
+      group   => $apache::config_file_group,
       require => Package['apache'],
       notify  => $apache::manage_service_autorestart,
       source  => $apache::source_dir,
@@ -408,6 +413,20 @@ class apache (
             file { 'apache.dir.mods-enabled':
               ensure => directory,
               path   => "${apache::config_dir}/mods-enabled",
+              mode   => $apache::config_file_mode,
+              owner  => $apache::config_file_owner,
+              group  => $apache::config_file_group
+            }
+            file { 'apache.dir.sites-available':
+              ensure => directory,
+              path   => "${apache::config_dir}/sites-available",
+              mode   => $apache::config_file_mode,
+              owner  => $apache::config_file_owner,
+              group  => $apache::config_file_group
+            }
+            file { 'apache.dir.sites-enabled':
+              ensure => directory,
+              path   => "${apache::config_dir}/sites-enabled",
               mode   => $apache::config_file_mode,
               owner  => $apache::config_file_owner,
               group  => $apache::config_file_group
