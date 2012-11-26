@@ -47,6 +47,7 @@
 #   will not be purged. Currently this is:
 #
 #  Debian/Ubuntu: ${apache::config_dir}/mods-available
+#                 ${apache::config_dir}/mods-enabled
 #   
 #   Can be defined also by the (top scope) variable $apache_source_dir_purge_os
 #
@@ -280,10 +281,6 @@ class apache (
     /(?i:Ubuntu|Debian|Mint)/ => "${apache::config_dir}/sites-available",
     default                   => "${apache::config_dir}/conf.d",
   }
-  $mdir = $::operatingsystem ? {
-    /(?i:Ubuntu|Debian|Mint)/ => "${apache::config_dir}/mods-available",
-    default                   => "${apache::config_dir}/conf.d",
-  }
 
   ### Definition of some variables used in the module
   $manage_package = $apache::bool_absent ? {
@@ -403,7 +400,14 @@ class apache (
           /(?i:Ubuntu|Debian|Mint)/: {
             file { 'apache.dir.mods-available':
               ensure => directory,
-              path   => $apache::mdir,
+              path   => "${apache::config_file}/mods-available",
+              mode   => $apache::config_file_mode,
+              owner  => $apache::config_file_owner,
+              group  => $apache::config_file_group
+            }
+            file { 'apache.dir.mods-enabled':
+              ensure => directory,
+              path   => "${apache::config_file}/mods-enabled",
               mode   => $apache::config_file_mode,
               owner  => $apache::config_file_owner,
               group  => $apache::config_file_group
