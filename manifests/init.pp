@@ -280,6 +280,10 @@ class apache (
     /(?i:Ubuntu|Debian|Mint)/ => "${apache::config_dir}/sites-available",
     default                   => "${apache::config_dir}/conf.d",
   }
+  $mdir = $::operatingsystem ? {
+    /(?i:Ubuntu|Debian|Mint)/ => "${apache::config_dir}/mods-available",
+    default                   => "${apache::config_dir}/conf.d",
+  }
 
   ### Definition of some variables used in the module
   $manage_package = $apache::bool_absent ? {
@@ -399,7 +403,7 @@ class apache (
           /(?i:Ubuntu|Debian|Mint)/: {
             file { 'apache.dir.mods-available':
               ensure => directory,
-              path   => $apache::config_dir,
+              path   => $apache::mdir,
               mode   => $apache::config_file_mode,
               owner  => $apache::config_file_owner,
               group  => $apache::config_file_group
