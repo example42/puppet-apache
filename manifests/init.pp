@@ -21,6 +21,11 @@
 # [*source_dir*]
 #   If defined, the whole apache configuration directory content is retrieved
 #   recursively from the specified source
+#   This module contains a copy of the default config files provided by the 
+#   distribution for the follow distributions:
+#
+#   Debian Squeeze (6.0): source_dir => 'apache/default-config/debian/squeeze'
+#
 #   (source => $source_dir , recurse => true)
 #   Can be defined also by the (top scope) variable $apache_source_dir
 #
