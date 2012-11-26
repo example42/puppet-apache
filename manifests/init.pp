@@ -400,14 +400,14 @@ class apache (
           /(?i:Ubuntu|Debian|Mint)/: {
             file { 'apache.dir.mods-available':
               ensure => directory,
-              path   => "${apache::config_file}/mods-available",
+              path   => "${apache::config_dir}/mods-available",
               mode   => $apache::config_file_mode,
               owner  => $apache::config_file_owner,
               group  => $apache::config_file_group
             }
             file { 'apache.dir.mods-enabled':
               ensure => directory,
-              path   => "${apache::config_file}/mods-enabled",
+              path   => "${apache::config_dir}/mods-enabled",
               mode   => $apache::config_file_mode,
               owner  => $apache::config_file_owner,
               group  => $apache::config_file_group
