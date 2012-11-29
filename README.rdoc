@@ -14,6 +14,19 @@ This module requires functions provided by the Example42 Puppi module.
 
 For detailed info about the logic and usage patterns of Example42 modules read README.usage on Example42 main modules set.
 
+== USAGE - Module specific usage
+
+* Install apache with a custom httpd.conf template and some virtual hosts
+
+         class { 'apache':
+           template => 'example42/apache/httpd.conf.erb',
+         }
+
+         apache::vhost { 'mysite':
+           docroot  => '/path/to/docroot',
+           template => 'example42/apache/vhost/mysite.com.erb',
+         }
+
 == USAGE - Basic management
 
 * Install apache with default settings
