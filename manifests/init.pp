@@ -33,14 +33,8 @@
 #   If set to true (default false) non-managed files will be purged 
 #   from the configuration directory
 #   Without this, previously created vhosts will _not_ be removed automatically.
-#   (source => $source_dir , recurse => true , purge => true)
-#   Can be defined also by the (top scope) variable $apache_source_dir_purge
-#
-# [*source_dir_force*]
-#   If set to true (default false) non-managed directories will be purged
-#   from the configuration directory.
 #   (source => $source_dir , recurse => true , purge => true, force => true)
-#   Can be defined also by the (top scope) variable $apache_source_dir_force
+#   Can be defined also by the (top scope) variable $apache_source_dir_purge
 #
 # [*source_dir_purge_os*]
 #   If set to false (default false) directories used by the packaging system 
@@ -224,7 +218,6 @@ class apache (
   $source              = params_lookup( 'source' ),
   $source_dir          = params_lookup( 'source_dir' ),
   $source_dir_purge    = params_lookup( 'source_dir_purge' ),
-  $source_dir_force    = params_lookup( 'source_dir_force' ),
   $source_dir_purge_os = params_lookup( 'source_dir_purge_os' ),
   $template            = params_lookup( 'template' ),
   $service_autorestart = params_lookup( 'service_autorestart' , 'global' ),
@@ -264,7 +257,6 @@ class apache (
   ) inherits apache::params {
 
   $bool_source_dir_purge=any2bool($source_dir_purge)
-  $bool_source_dir_force=any2bool($source_dir_force)
   $bool_source_dir_purge_os=any2bool($source_dir_purge_os)
   $bool_service_autorestart=any2bool($service_autorestart)
   $bool_absent=any2bool($absent)
@@ -393,7 +385,7 @@ class apache (
       source  => $apache::source_dir,
       recurse => true,
       purge   => $apache::bool_source_dir_purge,
-      force   => $apache::bool_source_dir_force,
+      force   => $apache::bool_source_dir_purge,
       replace => $apache::manage_file_replace,
       audit   => $apache::manage_audit,
     }
