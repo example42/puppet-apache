@@ -22,7 +22,7 @@ class apache::ssl {
         require => Package['apache'],
         notify  => Service['apache'],
       }
-      file { "${apache::configdir}/ssl.conf":
+      file { "${apache::config_dir}/ssl.conf":
         mode   => '0644',
         owner  => 'root',
         group  => 'root',
