@@ -29,11 +29,12 @@ class apache::ssl {
         notify => Service['apache'],
       }
       file {['/var/cache/mod_ssl', '/var/cache/mod_ssl/scache']:
-        ensure => directory,
-        owner  => 'apache',
-        group  => 'root',
-        mode   => '0700',
-        notify => Service['apache'],
+        ensure  => directory,
+        owner   => 'apache',
+        group   => 'root',
+        mode    => '0700',
+        require => Package['mod_ssl'],
+        notify  => Service['apache'],
       }
     }
   }
