@@ -1,5 +1,8 @@
 # = Define: apache::virtualhost
 #
+# NOTE: This define does the same function of apache::vhost and is
+#       now deprecated. Use apache::vhost instead.
+#
 # Basic Virtual host management define
 # You can use different templates for your apache virtual host files
 # Default is virtualhost.conf.erb, adapt it to your needs or create
