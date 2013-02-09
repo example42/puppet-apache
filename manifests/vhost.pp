@@ -21,9 +21,17 @@
 #
 # [*priority*]
 #   The priority of the VirtualHost, lower values are evaluated first
+#   Set to '' to edit default apache value
 #
 # [*serveraliaes*]
-#   An optional list of space separated ServerAliaes
+#   An optional list of space separated ServerAliases
+#
+# [*server_admin*]
+#   Server admin email address
+#
+# [*server_name*]
+#   An optional way to directly set server name
+#   False mean, that servername is not present in generated config file
 #
 # == Example:
 #  apache::vhost { 'site.name.fqdn':
@@ -36,6 +44,9 @@
 #  }
 #
 define apache::vhost (
+  $server_admin   = '',
+  $server_name    = '',
+  $serveraliases  = '',
   $docroot        = '',
   $docroot_create = false,
   $docroot_owner  = 'root',
@@ -44,7 +55,6 @@ define apache::vhost (
   $ssl            = false,
   $template       = 'apache/virtualhost/vhost.conf.erb',
   $priority       = '50',
-  $serveraliases  = '',
   $enable         = true ) {
 
   $ensure = bool2ensure($enable)
@@ -55,9 +65,41 @@ define apache::vhost (
     default => $docroot,
   }
 
+  $server_name_value = $server_name ? {
+    ''      => $name,
+    default => $server_name,
+  }
+
+  # Server admin email
+  if $server_admin != '' {
+    $server_admin_email = "${server_admin}"
+  } elsif ($name != 'default') and ($name != 'default-ssl') {
+    $server_admin_email = "webmaster@${name}"
+  } else {
+    $server_admin_email = "webmaster@localhost"
+  }
+
+  # Config file path
+  if $priority != '' {
+    $config_file_path = "${apache::vdir}/${priority}-${name}.conf"
+  } elsif ($name != 'default') and ($name != 'default-ssl') {
+    $config_file_path = "${apache::vdir}/${name}.conf"
+  } else {
+    $config_file_path = "${apache::vdir}/${name}"
+  }
+
+  # Config file enable path
+  if $priority != '' {
+    $config_file_enable_path = "${apache::config_dir}/sites-enabled/${priority}-${name}.conf"
+  } elsif ($name != 'default') and ($name != 'default-ssl') {
+    $config_file_enable_path = "${apache::config_dir}/sites-enabled/${name}.conf"
+  } else {
+    $config_file_enable_path = "${apache::config_dir}/sites-enabled/000-${name}"
+  }
+
   include apache
 
-  file { "${apache::vdir}/${priority}-${name}.conf":
+  file { "${config_file_path}":
     ensure  => $ensure,
     content => template($template),
     mode    => $apache::config_file_mode,
@@ -73,10 +115,10 @@ define apache::vhost (
     ubuntu,debian,mint: {
       file { "ApacheVHostEnabled_$name":
         ensure  => $enable ? {
-          true  => "${apache::vdir}/${priority}-${name}.conf",
+          true  => "${config_file_path}",
           false => absent,
         },
-        path    => "${apache::config_dir}/sites-enabled/${priority}-${name}.conf",
+        path    => "${config_file_enable_path}",
         require => Package['apache'],
       }
     }
