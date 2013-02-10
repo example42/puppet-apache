@@ -23,7 +23,7 @@
 #   The priority of the VirtualHost, lower values are evaluated first
 #   Set to '' to edit default apache value
 #
-# [*serveraliaes*]
+# [*serveraliases*]
 #   An optional list of space separated ServerAliases
 #
 # [*server_admin*]
