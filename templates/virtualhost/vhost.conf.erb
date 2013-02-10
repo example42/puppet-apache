@@ -2,7 +2,6 @@
 
 <VirtualHost *:<%= port %>>
     ServerAdmin <%= server_admin_email %>
-
     DocumentRoot <%= real_docroot %>
 <% if server_name_value != false -%>
     ServerName <%= server_name_value %>
@@ -10,6 +9,6 @@
 <% if serveraliases != "" -%>
     ServerAlias <%= serveraliases %>
 <% end -%>
-    ErrorLog  <%= scope.lookupvar('apache::log_dir')%>/<%= name %>-error_log
-    CustomLog <%= scope.lookupvar('apache::log_dir')%>/<%= name %>-access_log common
+    ErrorLog  <%= scope.lookupvar('apache::log_dir') %>/<%= name %>-error_log
+    CustomLog <%= scope.lookupvar('apache::log_dir') %>/<%= name %>-access_log common
 </VirtualHost>
