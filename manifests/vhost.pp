@@ -21,10 +21,10 @@
 #
 # [*priority*]
 #   The priority of the VirtualHost, lower values are evaluated first
-#   False value is here for editing default apache value
+#   Set to '' to edit default apache value
 #
-# [*server_aliaes*]
-#   An optional list of space separated ServerAliaes
+# [*serveraliases*]
+#   An optional list of space separated ServerAliases
 #
 # [*server_admin*]
 #   Server admin email address
@@ -44,8 +44,8 @@
 #
 define apache::vhost (
   $server_admin   = '',
-  $server_name   = '',
-  $server_aliases = '',
+  $server_name    = '',
+  $serveraliases  = '',
   $docroot        = '',
   $docroot_create = false,
   $docroot_owner  = 'root',
@@ -70,20 +70,18 @@ define apache::vhost (
   }
 
   $server_admin_email = $server_admin ? {
-    ''      => 'webmaster@localhost',
+    ''      => "webmaster@${name}",
     default => $server_admin,
   }
 
   $config_file_path = $priority ? {
-    false   => "${apache::vdir}/${name}",
-    ''      => "${apache::vdir}/50-${name}",
-    default => "${apache::vdir}/${priority}-${name}"
+    ''      => "${apache::vdir}/${name}.conf",
+    default => "${apache::vdir}/${priority}-${name}.conf"
   }
 
   $config_file_enable_path = $priority ? {
-    false      => "${apache::config_dir}/sites-enabled/000-${name}",
-    ''      => "${apache::config_dir}/sites-enabled/50-${name}",
-    default => "${apache::config_dir}/sites-enabled/${priority}-${name}"
+    ''      => "${apache::config_dir}/sites-enabled/000-${name}.conf",
+    default => "${apache::config_dir}/sites-enabled/${priority}-${name}.conf"
   }
 
   include apache
