@@ -41,7 +41,7 @@ class apache::params {
 
   $process = $::operatingsystem ? {
     /(?i:Ubuntu|Debian|Mint)/ => 'apache2',
-    /(?i:SLES|OpenSuSE)/      => 'apache2',
+    /(?i:SLES|OpenSuSE)/      => 'httpd2-prefork',
     default                   => 'httpd',
   }
 
