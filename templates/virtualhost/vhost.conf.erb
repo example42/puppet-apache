@@ -8,7 +8,7 @@
 <% end -%>
 <% if serveraliases != "" -%>
 <% if serveraliases.is_a? Array -%>
-    ServerAlias <% serveraliases.each do |name| -%><%= name %><% end %>
+    ServerAlias <% serveraliases.each do |name| -%> <%= name %><% end %>
 <% else -%>
     ServerAlias <%= serveraliases %> 
 <% end -%>

@@ -6,7 +6,7 @@
     ServerName <%= name %>
 <% if aliases != "" -%>
 <% if aliases.is_a? Array -%>
-    ServerAlias <% aliases.each do |name| -%><%= name %><% end %>
+    ServerAlias <% aliases.each do |name| -%> <%= name %><% end %>
 <% else -%>
     ServerAlias <%= aliases %> 
 <% end -%>
