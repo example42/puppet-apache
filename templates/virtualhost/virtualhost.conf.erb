@@ -5,10 +5,10 @@
     DocumentRoot <%= real_documentroot %>
     ServerName <%= name %>
 <% if aliases != "" -%>
-<% if aliases.is_a?(Array) -%>
-    Serveraliases <% aliases.each do |valeach| -%><%= valeach %><% end -%>
+<% if aliases.is_a? Array -%>
+    ServerAlias <% aliases.each do |name| -%><%= name %><% end -%>
 <% else -%>
-    Serveraliases <%= aliases %>
+    ServerAlias <%= aliases %>
 <% end -%>
 <% end -%>
     ErrorLog  <%= scope.lookupvar('apache::log_dir')%>/<%= name %>-error_log

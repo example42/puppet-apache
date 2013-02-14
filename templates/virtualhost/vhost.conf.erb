@@ -7,10 +7,10 @@
     ServerName <%= server_name_value %>
 <% end -%>
 <% if serveraliases != "" -%>
-<% if serveraliases.is_a?(Array) -%>
-    Serveraliases <% serveraliases.each do |valeach| -%><%= valeach %><% end -%>
+<% if serveraliases.is_a? Array -%>
+    ServerAlias <% serveraliases.each do |name| -%><%= name %><% end -%>
 <% else -%>
-    Serveraliases <%= serveraliases %>
+    ServerAlias <%= serveraliases %>
 <% end -%>
 <% end -%>
     ErrorLog  <%= scope.lookupvar('apache::log_dir') %>/<%= name %>-error_log
