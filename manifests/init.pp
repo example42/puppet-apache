@@ -223,6 +223,7 @@ class apache (
   $package             = params_lookup( 'package' ),
   $service             = params_lookup( 'service' ),
   $service_status      = params_lookup( 'service_status' ),
+  $service_requires	   = params_lookup( 'service_requires' ),
   $process             = params_lookup( 'process' ),
   $process_args        = params_lookup( 'process_args' ),
   $process_user        = params_lookup( 'process_user' ),
@@ -338,7 +339,7 @@ class apache (
     enable     => $apache::manage_service_enable,
     hasstatus  => $apache::service_status,
     pattern    => $apache::process,
-    require    => Package['apache'],
+    require    => $service_requires,
   }
 
   file { 'apache.conf':
