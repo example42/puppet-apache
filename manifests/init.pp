@@ -365,6 +365,7 @@ class apache (
       source  => $apache::source_dir,
       recurse => true,
       purge   => $apache::bool_source_dir_purge,
+      force   => $apache::bool_source_dir_purge,
       replace => $apache::manage_file_replace,
       audit   => $apache::manage_audit,
     }
