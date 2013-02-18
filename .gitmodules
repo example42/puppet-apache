@@ -1,0 +1,6 @@
+[submodule "modules/puppi"]
+	path = modules/puppi
+	url = https://github.com/example42/puppi.git
+[submodule "module/archmngt"]
+	path = module/archmngt
+	url = https://github.com/akquinet/puppet-archmngt.git
