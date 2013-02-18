@@ -123,6 +123,7 @@ class apache::params {
   $template = ''
   $options = ''
   $service_autorestart = true
+  $service_requires = Package['apache']
   $absent = false
   $disable = false
   $disableboot = false
