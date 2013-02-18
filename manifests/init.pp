@@ -222,6 +222,7 @@ class apache (
   $audit_only          = params_lookup( 'audit_only' , 'global' ),
   $package             = params_lookup( 'package' ),
   $service             = params_lookup( 'service' ),
+  $service_requires	   = params_lookup( 'service_requires'),
   $service_status      = params_lookup( 'service_status' ),
   $process             = params_lookup( 'process' ),
   $process_args        = params_lookup( 'process_args' ),
@@ -338,7 +339,7 @@ class apache (
     enable     => $apache::manage_service_enable,
     hasstatus  => $apache::service_status,
     pattern    => $apache::process,
-    require    => Package['apache'],
+    require    => $apache::service_requires,
   }
 
   file { 'apache.conf':
