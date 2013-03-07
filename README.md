@@ -1,4 +1,4 @@
-= Puppet module: apache
+# Puppet module: apache
 
 This is a Puppet apache module from the second generation of Example42 Puppet Modules.
 
@@ -14,7 +14,7 @@ This module requires functions provided by the Example42 Puppi module.
 
 For detailed info about the logic and usage patterns of Example42 modules read README.usage on Example42 main modules set.
 
-== USAGE - Module specific usage
+## USAGE - Module specific usage
 
 * Install apache with a custom httpd.conf template and some virtual hosts
 
@@ -27,7 +27,7 @@ For detailed info about the logic and usage patterns of Example42 modules read R
            template => 'example42/apache/vhost/mysite.com.erb',
          }
 
-== USAGE - Basic management
+## USAGE - Basic management
 
 * Install apache with default settings
 
@@ -58,7 +58,7 @@ For detailed info about the logic and usage patterns of Example42 modules read R
         }
 
 
-== USAGE - Default server management
+## USAGE - Default server management
 * Simple way to manage default apache configuration
 
         apache::vhost { 'default':
@@ -69,7 +69,7 @@ For detailed info about the logic and usage patterns of Example42 modules read R
         }
 
 
-== USAGE - Overrides and Customizations
+## USAGE - Overrides and Customizations
 * Use custom sources for main config file 
 
         class { "apache":
@@ -108,7 +108,7 @@ For detailed info about the logic and usage patterns of Example42 modules read R
         }
 
 
-== USAGE - Example42 extensions management 
+## USAGE - Example42 extensions management 
 * Activate puppi (recommended, but disabled by default)
   Note that this option requires the usage of Example42 puppi module
 
