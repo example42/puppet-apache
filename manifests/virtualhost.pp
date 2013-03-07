@@ -75,7 +75,7 @@ define apache::virtualhost (
     default => $content,
   }
 
-  file { "ApacheVirtualHost_$name":
+  file { "ApacheVirtualHost_${name}":
     ensure  => $ensure,
     path    => $real_path,
     content => $real_content,
@@ -90,7 +90,7 @@ define apache::virtualhost (
   # On Debian/Ubuntu manages sites-enabled
   case $::operatingsystem {
     ubuntu,debian,mint: {
-      file { "ApacheVirtualHostEnabled_$name":
+      file { "ApacheVirtualHostEnabled_${name}":
         ensure  => $ensure_link,
         path    => "${apache::config_dir}/sites-enabled/${real_filename}",
         require => Package['apache'],

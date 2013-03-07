@@ -48,7 +48,7 @@
 # [*service_requires*]
 #   Overwrites the service dependencies, which are by default: Package['apache'].
 #   Set this parameter to a custom set of requirements, if you want to let the
-#	Apache service depend on more than just the package dependency. 
+#   Apache service depend on more than just the package dependency.
 #
 # [*absent*]
 #   Set to 'true' to remove package(s) installed by module
