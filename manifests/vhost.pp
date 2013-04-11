@@ -15,6 +15,12 @@
 # [*ssl*]
 #   Set to true to enable SSL for this Virtual Host
 #
+# [*options*]
+#   The options for the given docroot
+#
+# [*override*]
+#   The $override for the given vhost (array of AllowOverride arguments)
+#
 # [*template*]
 #   Specify a custom template to use instead of the default one
 #   The value will be used in content => template($template)
@@ -53,6 +59,8 @@ define apache::vhost (
   $docroot_group  = 'root',
   $port           = '80',
   $ssl            = false,
+  $options        = 'Indexes FollowSymLinks MultiViews',
+  $override       = 'None',
   $template       = 'apache/virtualhost/vhost.conf.erb',
   $priority       = '50',
   $enable         = true ) {

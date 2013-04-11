@@ -2,7 +2,6 @@
 
 <VirtualHost *:<%= port %>>
     ServerAdmin <%= server_admin_email %>
-    DocumentRoot <%= real_docroot %>
 <% if server_name_value != false -%>
     ServerName <%= server_name_value %>
 <% end -%>
@@ -10,9 +9,16 @@
 <% if serveraliases.is_a? Array -%>
     ServerAlias <% serveraliases.each do |name| -%> <%= name %><% end %>
 <% else -%>
-    ServerAlias <%= serveraliases %> 
+    ServerAlias <%= serveraliases %>
 <% end -%>
 <% end -%>
+    DocumentRoot <%= real_docroot %>
+    <Directory <%= real_docroot %>>
+        Options <%= options %>
+        AllowOverride <%= Array(override).join(' ') %>
+        Order allow,deny
+        allow from all
+    </Directory>
     ErrorLog  <%= scope.lookupvar('apache::log_dir') %>/<%= name %>-error_log
     CustomLog <%= scope.lookupvar('apache::log_dir') %>/<%= name %>-access_log common
 </VirtualHost>
