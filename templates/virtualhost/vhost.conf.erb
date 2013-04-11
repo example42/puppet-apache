@@ -1,7 +1,9 @@
 # File Managed by Puppet
 
 <VirtualHost *:<%= port %>>
+<% if server_admin_email %>
     ServerAdmin <%= server_admin_email %>
+<% end -%>
 <% if server_name_value != false -%>
     ServerName <%= server_name_value %>
 <% end -%>
