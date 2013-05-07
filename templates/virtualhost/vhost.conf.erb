@@ -10,7 +10,7 @@
 <% if serveraliases.is_a? Array -%>
     ServerAlias <% serveraliases.each do |name| -%> <%= name %><% end %>
 <% else -%>
-    ServerAlias <%= serveraliases %> 
+    ServerAlias <%= serveraliases %>
 <% end -%>
 <% end -%>
 
@@ -27,16 +27,10 @@
     RackAutoDetect <%= bool_passenger_rack_auto_detect ? "On" : "Off" %>
     RailsAutoDetect <%= bool_passenger_rails_auto_detect ? "On" : "Off" %>
 
-
     <%= passenger_rails_env      ? "RailsEnv #{passenger_rails_env}" : ""-%>
-
     <%= passenger_rack_env       ? "RackEnv #{passenger_rack_env}" : ""-%>
-
     <%= passenger_rails_base_uri ? "RailsBaseURI #{passenger_rails_base_uri}" : ""-%>
-
     <%= passenger_rack_base_uri  ? "RackBaseURI #{passenger_rack_base_uri}" : ""-%>
 
-
 <% end -%>
-
 </VirtualHost>
