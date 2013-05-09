@@ -18,7 +18,6 @@
     CustomLog <%= scope.lookupvar('apache::log_dir') %>/<%= name %>-access_log common
 
 <% if bool_passenger -%>
-    # you probably want to tune these settings
     PassengerHighPerformance <%= bool_passenger_high_performance ? "On" : "Off" %>
     PassengerMaxPoolSize <%= passenger_max_pool_size %>
     PassengerPoolIdleTime <%= passenger_pool_idle_time %>
@@ -27,10 +26,10 @@
     RackAutoDetect <%= bool_passenger_rack_auto_detect ? "On" : "Off" %>
     RailsAutoDetect <%= bool_passenger_rails_auto_detect ? "On" : "Off" %>
 
-    <%= passenger_rails_env      ? "RailsEnv #{passenger_rails_env}" : ""-%>
-    <%= passenger_rack_env       ? "RackEnv #{passenger_rack_env}" : ""-%>
-    <%= passenger_rails_base_uri ? "RailsBaseURI #{passenger_rails_base_uri}" : ""-%>
-    <%= passenger_rack_base_uri  ? "RackBaseURI #{passenger_rack_base_uri}" : ""-%>
+    <%= passenger_rails_env      ? "RailsEnv #{passenger_rails_env}" : ""%>
+    <%= passenger_rack_env       ? "RackEnv #{passenger_rack_env}" : ""%>
+    <%= passenger_rails_base_uri ? "RailsBaseURI #{passenger_rails_base_uri}" : ""%>
+    <%= passenger_rack_base_uri  ? "RackBaseURI #{passenger_rack_base_uri}" : ""%>
 
 <% end -%>
 </VirtualHost>
