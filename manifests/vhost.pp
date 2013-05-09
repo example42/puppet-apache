@@ -91,7 +91,7 @@ define apache::vhost (
   $template                      = 'apache/virtualhost/vhost.conf.erb',
   $priority                      = '50',
   $serveraliases                 = '',
-  $passenger                     = true,
+  $passenger                     = false,
   $passenger_high_performance    = true,
   $passenger_max_pool_size       = 12,
   $passenger_pool_idle_time      = 1200,
