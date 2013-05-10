@@ -99,10 +99,10 @@ define apache::vhost (
   $passenger_stat_throttle_rate  = 30,
   $passenger_rack_auto_detect    = true,
   $passenger_rails_auto_detect   = false,
-  $passenger_rails_env           = undef,
-  $passenger_rails_base_uri      = '/',
-  $passenger_rack_env            = undef,
-  $passenger_rack_base_uri       = '/',
+  $passenger_rails_env           = '',
+  $passenger_rails_base_uri      = '',
+  $passenger_rack_env            = '',
+  $passenger_rack_base_uri       = '',
   $enable                        = true
 ) {
 
