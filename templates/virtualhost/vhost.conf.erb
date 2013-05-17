@@ -20,6 +20,21 @@
         AllowOverride <%= Array(override).join(' ') %>
         Order allow,deny
         allow from all
+
+        <% if front_controller %>
+        DirectoryIndex <%= front_controller %>
+        <IfModule mod_rewrite.c>
+            RewriteEngine On
+
+            # If the requested filename exists, simply serve it.
+            # We only want to let Apache serve files and not directories.
+            RewriteCond %{REQUEST_FILENAME} -f
+            RewriteRule .? - [L]
+
+            # Rewrite all other queries to the front controller.
+            RewriteRule .? %{ENV:BASE}/<%= front_controller %> [L]
+        </IfModule>
+        <% end -%>
     </Directory>
     ErrorLog  <%= scope.lookupvar('apache::log_dir') %>/<%= name %>-error_log
     CustomLog <%= scope.lookupvar('apache::log_dir') %>/<%= name %>-access_log common

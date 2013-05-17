@@ -62,6 +62,7 @@ define apache::vhost (
   $options        = 'Indexes FollowSymLinks MultiViews',
   $override       = 'None',
   $template       = 'apache/virtualhost/vhost.conf.erb',
+  $front_controller = '',
   $priority       = '50',
   $enable         = true ) {
 
