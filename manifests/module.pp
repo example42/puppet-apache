@@ -71,6 +71,8 @@ define apache::module (
       true    => "${modpackage_basename}${name}",
       default => $install_package,
     }
+  
+    Package["ApacheModule_${name}"] -> Exec["/usr/sbin/a2enmod ${name}"]
 
     package { "ApacheModule_${name}":
       ensure  => $ensure,
@@ -78,6 +80,7 @@ define apache::module (
       notify  => $manage_service_autorestart,
       require => Package['apache'],
     }
+    
   }
 
 
