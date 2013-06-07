@@ -72,8 +72,6 @@ define apache::module (
       default => $install_package,
     }
   
-    Package["ApacheModule_${name}"] -> Exec["/usr/sbin/a2enmod ${name}"]
-
     package { "ApacheModule_${name}":
       ensure  => $ensure,
       name    => $real_install_package,
@@ -112,6 +110,10 @@ define apache::module (
           unless    => "/bin/sh -c '[ -L ${apache::config_dir}/mods-enabled/${name}.load ] && [ ${apache::config_dir}/mods-enabled/${name}.load -ef ${apache::config_dir}/mods-available/${name}.load ]'",
           notify    => $manage_service_autorestart,
           require   => Package['apache'],
+	  subscribe => $install_package ? {
+             false   => undef,
+ 	     default => Package["ApacheModule_${name}"]
+          }
         }
       }
       'absent': {
@@ -119,6 +121,10 @@ define apache::module (
           onlyif    => "/bin/sh -c '[ -L ${apache::config_dir}/mods-enabled/${name}.load ] && [ ${apache::config_dir}/mods-enabled/${name}.load -ef ${apache::config_dir}/mods-available/${name}.load ]'",
           notify    => $manage_service_autorestart,
           require   => Package['apache'],
+          before    => $install_package ? {
+	      false   => undef,
+              default => Package["ApacheModule_${name}"]
+          }
         }
       }
       default: {
