@@ -11,13 +11,6 @@
     ServerAlias <%= @aliases %>
 <% end -%>
 <% end -%>
-<% if env_variables != "" -%>
-<% if env_variables.is_a? Array -%>
-<% env_variables.each do |envvars| -%>
-    SetEnv <%= envvars %>
-<% end -%>
-<% end -%>
-<% end -%> 
     ErrorLog  <%= scope.lookupvar('apache::log_dir')%>/<%= @name %>-error_log
     CustomLog <%= scope.lookupvar('apache::log_dir')%>/<%= @name %>-access_log common
 </VirtualHost>
