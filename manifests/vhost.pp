@@ -26,6 +26,9 @@
 # [*serveraliases*]
 #   An optional list of space separated ServerAliases
 #
+# [*env_variables*]
+#   An optional list of space separated environment variables (e.g ['APP_ENV dev'])
+#
 # [*server_admin*]
 #   Server admin email address
 #
@@ -91,6 +94,7 @@ define apache::vhost (
   $template                      = 'apache/virtualhost/vhost.conf.erb',
   $priority                      = '50',
   $serveraliases                 = '',
+  $env_variables                 = '', 
   $passenger                     = false,
   $passenger_high_performance    = true,
   $passenger_max_pool_size       = 12,
