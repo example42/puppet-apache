@@ -72,7 +72,16 @@
 # [*passenger_rack_base_uri*]
 #   Set the RackBaseURI directive
 #
-# == Example:
+# [*directory*]
+#   Set the VHost directory used for the <Directory> directive
+#
+# [*directory_options*]
+#   Set the directory's Options
+#
+# [*directory_allow_override*]
+#   Set the directory's override configuration
+#
+# == Examples:
 #  apache::vhost { 'site.name.fqdn':
 #    docroot  => '/path/to/docroot',
 #  }
@@ -80,6 +89,12 @@
 #  apache::vhost { 'mysite':
 #    docroot  => '/path/to/docroot',
 #    template => 'myproject/apache/mysite.conf',
+#  }
+#
+#  apache::vhost { 'my.other.site':
+#    docroot                    => '/path/to/docroot',
+#    directory                  => '/path/to',
+#    directory_allow_override   => 'All',
 #  }
 #
 define apache::vhost (
@@ -107,7 +122,10 @@ define apache::vhost (
   $passenger_rails_base_uri      = '',
   $passenger_rack_env            = '',
   $passenger_rack_base_uri       = '',
-  $enable                        = true
+  $enable                        = true,
+  $directory                     = '',
+  $directory_options             = '',
+  $directory_allow_override      = 'None'
 ) {
 
   $ensure                            = bool2ensure($enable)
@@ -120,6 +138,11 @@ define apache::vhost (
   $real_docroot = $docroot ? {
     ''      => "${apache::data_dir}/${name}",
     default => $docroot,
+  }
+
+  $real_directory = $directory ? {
+    ''      => "${apache::data_dir}",
+    default => $directory,
   }
 
   $server_name_value = $server_name ? {
