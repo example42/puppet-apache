@@ -39,7 +39,6 @@
     <% if @passenger_rack_base_uri != ''  %>RackBaseURI <%= @passenger_rack_base_uri %><% end %>
 
 <% end -%>
-
 <% if @directory_options != "" || @directory_allow_override != "None" -%>
     <Directory <%= @real_directory %>>
         <% if @directory_options != "" -%>
@@ -50,5 +49,4 @@
         <% end -%>
     </Directory>
 <% end -%>
-
 </VirtualHost>
