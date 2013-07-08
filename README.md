@@ -74,6 +74,7 @@ For detailed info about the logic and usage patterns of Example42 modules read R
             template            => 'apache/virtualhost/vhost.conf.erb',
         }
 * Using a source file to create the vhost
+
 	apache::vhost {'default':
 	    source 		=> 'puppet:///files/web/default.conf'
 	}
