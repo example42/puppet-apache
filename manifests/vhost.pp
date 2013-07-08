@@ -107,6 +107,7 @@ define apache::vhost (
   $port                          = '80',
   $ssl                           = false,
   $template                      = 'apache/virtualhost/vhost.conf.erb',
+  $source			 = '',
   $priority                      = '50',
   $serveraliases                 = '',
   $env_variables                 = '', 
@@ -178,16 +179,29 @@ define apache::vhost (
   }
 
   include apache
-
-  file { "${config_file_path}":
-    ensure  => $ensure,
-    content => template($template),
-    mode    => $apache::config_file_mode,
-    owner   => $apache::config_file_owner,
-    group   => $apache::config_file_group,
-    require => Package['apache'],
-    notify  => $apache::manage_service_autorestart,
+  if $source != '' {
+	  file { "${config_file_path}":
+	    ensure  => $ensure,
+	    source  => "puppet:///$source",
+	    mode    => $apache::config_file_mode,
+	    owner   => $apache::config_file_owner,
+	    group   => $apache::config_file_group,
+	    require => Package['apache'],
+	    notify  => $apache::manage_service_autorestart,
+  	}
+  } else {
+	  file { "${config_file_path}":
+	    ensure  => $ensure,
+	    content => template($template),
+	    mode    => $apache::config_file_mode,
+	    owner   => $apache::config_file_owner,
+	    group   => $apache::config_file_group,
+	    require => Package['apache'],
+	    notify  => $apache::manage_service_autorestart,
+  	}
   }
+	
+
 
   # Some OS specific settings:
   # On Debian/Ubuntu manages sites-enabled
