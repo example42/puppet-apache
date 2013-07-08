@@ -36,6 +36,9 @@
 #   An optional way to directly set server name
 #   False mean, that servername is not present in generated config file
 #
+# [*source*]
+#   Source file for vhost
+#
 # [*passenger*]
 #   If Passenger should be enabled
 #
@@ -106,7 +109,7 @@ define apache::vhost (
   $docroot_group                 = 'root',
   $port                          = '80',
   $ssl                           = false,
-  $template                      = 'apache/virtualhost/vhost.conf.erb',
+  $template                      = '',
   $source			 = '',
   $priority                      = '50',
   $serveraliases                 = '',
@@ -150,7 +153,17 @@ define apache::vhost (
     ''      => $name,
     default => $server_name,
   }
-
+ 
+  $manage_file_source = $source ? {
+    '' => undef,
+    default => $source,
+  }
+  
+  $manage_file_content = $template ? {
+    '' => undef,
+    default => template($template),
+  }
+ 
   # Server admin email
   if $server_admin != '' {
     $server_admin_email = "${server_admin}"
@@ -179,29 +192,16 @@ define apache::vhost (
   }
 
   include apache
-  if $source != '' {
 	  file { "${config_file_path}":
 	    ensure  => $ensure,
-	    source  => "puppet:///$source",
+	    source  => $manage_file_source,
+	    content => $manage_file_content,
 	    mode    => $apache::config_file_mode,
 	    owner   => $apache::config_file_owner,
 	    group   => $apache::config_file_group,
 	    require => Package['apache'],
 	    notify  => $apache::manage_service_autorestart,
   	}
-  } else {
-	  file { "${config_file_path}":
-	    ensure  => $ensure,
-	    content => template($template),
-	    mode    => $apache::config_file_mode,
-	    owner   => $apache::config_file_owner,
-	    group   => $apache::config_file_group,
-	    require => Package['apache'],
-	    notify  => $apache::manage_service_autorestart,
-  	}
-  }
-	
-
 
   # Some OS specific settings:
   # On Debian/Ubuntu manages sites-enabled
@@ -236,3 +236,4 @@ define apache::vhost (
     include apache::passenger
   }
 }
+
