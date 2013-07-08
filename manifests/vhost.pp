@@ -132,7 +132,11 @@ define apache::vhost (
   $directory_allow_override      = 'None'
 ) {
 
-  $ensure                            = bool2ensure($enable)
+  $ensure = $enable ? {
+        true => present,
+        false => present,
+        absent => absent,
+  }
   $bool_docroot_create               = any2bool($docroot_create)
   $bool_passenger                    = any2bool($passenger)
   $bool_passenger_high_performance   = any2bool($passenger_high_performance)
