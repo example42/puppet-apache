@@ -38,10 +38,7 @@ define apache::dotconf (
   # if conf.d does not exist, but conf-enabled does, create a symlink between the two
   $symlink = "ln -s '${apache::config_dir}/conf-enabled' '${apache::config_dir}/conf.d'"
   exec { $symlink:
-    onlyif => [
-      "test ! -d '${apache::config_dir}/conf.d'",
-      "test -d ${apache::config_dir}/conf-enabled"
-    ],
+    onlyif => "test ! -d '${apache::config_dir}/conf.d' && test -d '${apache::config_dir}/conf-enabled'",
     path   => '/bin:/usr/bin',
   }
 
