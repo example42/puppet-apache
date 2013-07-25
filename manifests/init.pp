@@ -185,6 +185,12 @@
 #   Note: This doesn't necessarily affect the service configuration file
 #   Can be defined also by the (top scope) variable $apache_port
 #
+# [*sslport*]
+#   The listening port, if any, for apache::ssl service.
+#   This is used by monitor, firewall, and puppi (optional) components
+#   Note: This doesn't necessarily affect the service cofiguration file
+#   Can be defined also by the (top scope) variable $apache_sslport
+#
 # [*protocol*]
 #   The protocol used by the the service.
 #   This is used by monitor, firewall and puppi (optional) components
@@ -246,6 +252,7 @@ class apache (
   $log_dir             = params_lookup( 'log_dir' ),
   $log_file            = params_lookup( 'log_file' ),
   $port                = params_lookup( 'port' ),
+  $sslport	       = params_lookup( 'sslport' ),
   $protocol            = params_lookup( 'protocol' ),
   $version             = params_lookup( 'version' )
   ) inherits apache::params {

@@ -40,10 +40,10 @@ class apache::ssl {
   }
 
   ### Service monitoring, if enabled ( monitor => true )
-  if $apache::bool_monitor == true {
+  if ($apache::bool_monitor == true) and ($apache::sslport) {
     monitor::port { "apache_${apache::protocol}_${apache::sslport}":
       protocol => $apache::protocol,
-      port     => $apache::port,
+      port     => $apache::sslport,
       target   => $apache::monitor_target,
       tool     => $apache::monitor_tool,
       enable   => $apache::manage_monitor,
@@ -52,7 +52,7 @@ class apache::ssl {
 
 
   ### Firewall management, if enabled ( firewall => true )
-  if $apache::bool_firewall == true {
+  if ($apache::bool_firewall == true) and ($apache::sslport) {
     firewall { "apache_${apache::protocol}_${apache::sslport}":
       source      => $apache::firewall_src,
       destination => $apache::firewall_dst,
