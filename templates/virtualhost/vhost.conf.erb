@@ -1,28 +1,28 @@
 # File Managed by Puppet
 
-<VirtualHost *:<%= port %>>
-<% if server_admin_email %>
-    ServerAdmin <%= server_admin_email %>
+<VirtualHost *:<%= @port %>>
+<% if @server_admin_email %>
+    ServerAdmin <%= @server_admin_email %>
 <% end -%>
-<% if server_name_value != false -%>
-    ServerName <%= server_name_value %>
+<% if @server_name_value != false -%>
+    ServerName <%= @server_name_value %>
 <% end -%>
-<% if serveraliases != "" -%>
-<% if serveraliases.is_a? Array -%>
-    ServerAlias <% serveraliases.each do |name| -%> <%= name %><% end %>
+<% if @serveraliases != "" -%>
+<% if @serveraliases.is_a? Array -%>
+    ServerAlias <% @serveraliases.each do |name| -%> <%= name %><% end %>
 <% else -%>
-    ServerAlias <%= serveraliases %>
+    ServerAlias <%= @serveraliases %>
 <% end -%>
 <% end -%>
-    DocumentRoot <%= real_docroot %>
-    <Directory <%= real_docroot %>>
-        Options <%= options %>
-        AllowOverride <%= Array(override).join(' ') %>
+    DocumentRoot <%= @real_docroot %>
+    <Directory <%= @real_docroot %>>
+        Options <%= @options %>
+        AllowOverride <%= Array(@override).join(' ') %>
         Order allow,deny
         allow from all
 
-        <% if front_controller %>
-        DirectoryIndex <%= front_controller %>
+        <% if @front_controller %>
+        DirectoryIndex <%= @front_controller %>
         <IfModule mod_rewrite.c>
             RewriteEngine On
 
@@ -32,10 +32,10 @@
             RewriteRule .? - [L]
 
             # Rewrite all other queries to the front controller.
-            RewriteRule .? %{ENV:BASE}/<%= front_controller %> [L]
+            RewriteRule .? %{ENV:BASE}/<%= @front_controller %> [L]
         </IfModule>
         <% end -%>
     </Directory>
-    ErrorLog  <%= scope.lookupvar('apache::log_dir') %>/<%= name %>-error_log
-    CustomLog <%= scope.lookupvar('apache::log_dir') %>/<%= name %>-access_log common
+    ErrorLog  <%= scope.lookupvar('apache::log_dir') %>/<%= @name %>-error_log
+    CustomLog <%= scope.lookupvar('apache::log_dir') %>/<%= @name %>-access_log common
 </VirtualHost>
