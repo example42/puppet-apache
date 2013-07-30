@@ -62,7 +62,7 @@ define apache::htpasswd (
 
       if $crypt_password {
         exec { "test -f ${real_htpasswd_file} || OPT='-c'; htpasswd -bp \${OPT} ${real_htpasswd_file} ${name} '${crypt_password}'":
-          unless  => "grep -q ${name}:${crypt_password} ${real_htpasswd_file}",
+          unless  => "grep -q '${name}:${crypt_password}' ${real_htpasswd_file}",
           path    => '/bin:/sbin:/usr/bin:/usr/sbin',
         }
       }
