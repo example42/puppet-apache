@@ -63,6 +63,7 @@ define apache::vhost (
   $override       = 'None',
   $template       = 'apache/virtualhost/vhost.conf.erb',
   $front_controller = '',
+  $additional_directory_conf = '',
   $priority       = '50',
   $enable         = true ) {
 
