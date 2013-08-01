@@ -20,6 +20,8 @@
         AllowOverride <%= Array(@override).join(' ') %>
         Order allow,deny
         allow from all
+        
+        <%= @additional_directory_conf %>
 
         <% if @front_controller %>
         DirectoryIndex <%= @front_controller %>
@@ -35,8 +37,6 @@
             RewriteRule .? %{ENV:BASE}/<%= @front_controller %> [L]
         </IfModule>
         <% end -%>
-
-        <%= @additional_directory_conf %>
     </Directory>
     ErrorLog  <%= scope.lookupvar('apache::log_dir') %>/<%= @name %>-error_log
     CustomLog <%= scope.lookupvar('apache::log_dir') %>/<%= @name %>-access_log common
