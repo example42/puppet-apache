@@ -69,6 +69,9 @@
 # [*passenger_rack_base_uri*]
 #   Set the RackBaseURI directive
 #
+# [*vhost_options*]
+#   Options that can be used inside a custom template
+#
 # == Example:
 #  apache::vhost { 'site.name.fqdn':
 #    docroot  => '/path/to/docroot',
@@ -103,7 +106,8 @@ define apache::vhost (
   $passenger_rails_base_uri      = '',
   $passenger_rack_env            = '',
   $passenger_rack_base_uri       = '',
-  $enable                        = true
+  $enable                        = true,
+  $vhost_options                 = ''
 ) {
 
   $ensure                            = bool2ensure($enable)
