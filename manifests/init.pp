@@ -167,6 +167,9 @@
 # [*config_file_init*]
 #   Path of configuration file sourced by init script
 #
+# [*config_file_default_purge*]
+#   Set to 'true' to purge the default configuration file
+#
 # [*pid_file*]
 #   Path of pid file. Used by monitor
 #
@@ -207,47 +210,48 @@
 #   Alessandro Franceschi <al@lab42.it/>
 #
 class apache (
-  $my_class            = params_lookup( 'my_class' ),
-  $source              = params_lookup( 'source' ),
-  $source_dir          = params_lookup( 'source_dir' ),
-  $source_dir_purge    = params_lookup( 'source_dir_purge' ),
-  $template            = params_lookup( 'template' ),
-  $service_autorestart = params_lookup( 'service_autorestart' , 'global' ),
-  $options             = params_lookup( 'options' ),
-  $absent              = params_lookup( 'absent' ),
-  $disable             = params_lookup( 'disable' ),
-  $disableboot         = params_lookup( 'disableboot' ),
-  $monitor             = params_lookup( 'monitor' , 'global' ),
-  $monitor_tool        = params_lookup( 'monitor_tool' , 'global' ),
-  $monitor_target      = params_lookup( 'monitor_target' , 'global' ),
-  $puppi               = params_lookup( 'puppi' , 'global' ),
-  $puppi_helper        = params_lookup( 'puppi_helper' , 'global' ),
-  $firewall            = params_lookup( 'firewall' , 'global' ),
-  $firewall_tool       = params_lookup( 'firewall_tool' , 'global' ),
-  $firewall_src        = params_lookup( 'firewall_src' , 'global' ),
-  $firewall_dst        = params_lookup( 'firewall_dst' , 'global' ),
-  $debug               = params_lookup( 'debug' , 'global' ),
-  $audit_only          = params_lookup( 'audit_only' , 'global' ),
-  $package             = params_lookup( 'package' ),
-  $service             = params_lookup( 'service' ),
-  $service_status      = params_lookup( 'service_status' ),
-  $service_requires    = params_lookup( 'service_requires' ),
-  $process             = params_lookup( 'process' ),
-  $process_args        = params_lookup( 'process_args' ),
-  $process_user        = params_lookup( 'process_user' ),
-  $config_dir          = params_lookup( 'config_dir' ),
-  $config_file         = params_lookup( 'config_file' ),
-  $config_file_mode    = params_lookup( 'config_file_mode' ),
-  $config_file_owner   = params_lookup( 'config_file_owner' ),
-  $config_file_group   = params_lookup( 'config_file_group' ),
-  $config_file_init    = params_lookup( 'config_file_init' ),
-  $pid_file            = params_lookup( 'pid_file' ),
-  $data_dir            = params_lookup( 'data_dir' ),
-  $log_dir             = params_lookup( 'log_dir' ),
-  $log_file            = params_lookup( 'log_file' ),
-  $port                = params_lookup( 'port' ),
-  $protocol            = params_lookup( 'protocol' ),
-  $version             = params_lookup( 'version' )
+  $my_class                  = params_lookup( 'my_class' ),
+  $source                    = params_lookup( 'source' ),
+  $source_dir                = params_lookup( 'source_dir' ),
+  $source_dir_purge          = params_lookup( 'source_dir_purge' ),
+  $template                  = params_lookup( 'template' ),
+  $service_autorestart       = params_lookup( 'service_autorestart' , 'global' ),
+  $options                   = params_lookup( 'options' ),
+  $absent                    = params_lookup( 'absent' ),
+  $disable                   = params_lookup( 'disable' ),
+  $disableboot               = params_lookup( 'disableboot' ),
+  $monitor                   = params_lookup( 'monitor' , 'global' ),
+  $monitor_tool              = params_lookup( 'monitor_tool' , 'global' ),
+  $monitor_target            = params_lookup( 'monitor_target' , 'global' ),
+  $puppi                     = params_lookup( 'puppi' , 'global' ),
+  $puppi_helper              = params_lookup( 'puppi_helper' , 'global' ),
+  $firewall                  = params_lookup( 'firewall' , 'global' ),
+  $firewall_tool             = params_lookup( 'firewall_tool' , 'global' ),
+  $firewall_src              = params_lookup( 'firewall_src' , 'global' ),
+  $firewall_dst              = params_lookup( 'firewall_dst' , 'global' ),
+  $debug                     = params_lookup( 'debug' , 'global' ),
+  $audit_only                = params_lookup( 'audit_only' , 'global' ),
+  $package                   = params_lookup( 'package' ),
+  $service                   = params_lookup( 'service' ),
+  $service_status            = params_lookup( 'service_status' ),
+  $service_requires          = params_lookup( 'service_requires' ),
+  $process                   = params_lookup( 'process' ),
+  $process_args              = params_lookup( 'process_args' ),
+  $process_user              = params_lookup( 'process_user' ),
+  $config_dir                = params_lookup( 'config_dir' ),
+  $config_file               = params_lookup( 'config_file' ),
+  $config_file_mode          = params_lookup( 'config_file_mode' ),
+  $config_file_owner         = params_lookup( 'config_file_owner' ),
+  $config_file_group         = params_lookup( 'config_file_group' ),
+  $config_file_init          = params_lookup( 'config_file_init' ),
+  $config_file_default_purge = params_lookup( 'config_file_default_purge'),
+  $pid_file                  = params_lookup( 'pid_file' ),
+  $data_dir                  = params_lookup( 'data_dir' ),
+  $log_dir                   = params_lookup( 'log_dir' ),
+  $log_file                  = params_lookup( 'log_file' ),
+  $port                      = params_lookup( 'port' ),
+  $protocol                  = params_lookup( 'protocol' ),
+  $version                   = params_lookup( 'version' )
   ) inherits apache::params {
 
   $bool_source_dir_purge=any2bool($source_dir_purge)
@@ -384,6 +388,12 @@ class apache (
     }
   }
 
+  if $apache::config_file_default_purge {
+    apache::vhost { 'default':
+      enable    => false,
+      priority  => '',
+    }
+  }
 
   ### Include custom class if $my_class is set
   if $apache::my_class {
