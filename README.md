@@ -65,6 +65,7 @@ For detailed info about the logic and usage patterns of Example42 modules read R
 
 
 ## USAGE - Default server management
+
 * Simple way to manage default apache configuration
 
         apache::vhost { 'default':
@@ -73,17 +74,21 @@ For detailed info about the logic and usage patterns of Example42 modules read R
             priority            => '',
             template            => 'apache/virtualhost/vhost.conf.erb',
         }
+
 * Using a source file to create the vhost
 
         apache::vhost { 'default':
-	    source 		=> 'puppet:///files/web/default.conf'
+	        source 		=> 'puppet:///files/web/default.conf'
+	        template	=> '',
         }
 
+
 ## USAGE - Overrides and Customizations
-* Use custom sources for main config file 
+
+* Use custom sources for main config file
 
         class { "apache":
-          source => [ "puppet:///modules/lab42/apache/apache.conf-${hostname}" , "puppet:///modules/lab42/apache/apache.conf" ], 
+          source => [ "puppet:///modules/lab42/apache/apache.conf-${hostname}" , "puppet:///modules/lab42/apache/apache.conf" ],
         }
 
 

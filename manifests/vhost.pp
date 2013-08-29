@@ -19,6 +19,13 @@
 #   Specify a custom template to use instead of the default one
 #   The value will be used in content => template($template)
 #
+# [*source*]
+#   Source file for vhost. Alternative to template.
+#   Note that if you decide to source a static file most of the other
+#   parameters of this define won't be used.
+#   Note also that if you set a source file, you've to explicitly set
+#   the template parameter to undef.
+#
 # [*priority*]
 #   The priority of the VirtualHost, lower values are evaluated first
 #   Set to '' to edit default apache value
@@ -35,9 +42,6 @@
 # [*server_name*]
 #   An optional way to directly set server name
 #   False mean, that servername is not present in generated config file
-#
-# [*source*]
-#   Source file for vhost
 #
 # [*passenger*]
 #   If Passenger should be enabled
@@ -109,8 +113,8 @@ define apache::vhost (
   $docroot_group                 = 'root',
   $port                          = '80',
   $ssl                           = false,
-  $template                      = '',
-  $source			 = '',
+  $template                      = 'apache/virtualhost/vhost.conf.erb',
+  $source			                   = '',
   $priority                      = '50',
   $serveraliases                 = '',
   $env_variables                 = '', 
@@ -157,17 +161,18 @@ define apache::vhost (
     ''      => $name,
     default => $server_name,
   }
- 
+
   $manage_file_source = $source ? {
-    '' => undef,
+    ''      => undef,
     default => $source,
   }
-  
+
   $manage_file_content = $template ? {
-    '' => undef,
+    ''      => undef,
+    undef   => undef,
     default => template($template),
   }
- 
+
   # Server admin email
   if $server_admin != '' {
     $server_admin_email = "${server_admin}"

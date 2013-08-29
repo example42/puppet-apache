@@ -45,6 +45,5 @@ define apache::ports (
       notify  => $manage_service_autorestart,
       require => Package['apache'],
     }
-	
-      }
+  }
 }
