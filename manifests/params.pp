@@ -112,6 +112,11 @@ class apache::params {
     default                   => '/var/www/html',
   }
 
+  $ports_conf_path = $::operatingsystem ? {
+    /(?i:Debian|Ubuntu|Mint)/ => '/etc/apache2/ports.conf',
+    default                   => '',
+  }
+
   $port = '80'
   $protocol = 'tcp'
 
