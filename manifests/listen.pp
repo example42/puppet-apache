@@ -6,9 +6,6 @@
 #
 # == Parameters
 #
-# [*port*]
-#   The port to Listen too. Required.
-#
 # [*namevirtualhost*]
 #   If to add a NameVirtualHost for this port. Default: *
 #   (it creates a NameVirtualHost <%= @namevirtualhost %>:<%= @port %> entry)
@@ -18,7 +15,6 @@
 # apache::listen { '8080':}
 #
 define apache::listen (
-  $port,
   $namevirtualhost = '*',
   $ensure          = 'present',
   $template        = 'apache/listen.conf.erb',
@@ -31,15 +27,15 @@ define apache::listen (
     false   => undef,
   }
 
-  file { "Apache_Listen_${port}.conf":
+  file { "Apache_Listen_${name}.conf":
     ensure  => $ensure,
-    path    => "${apache::config_dir}/conf.d/0000_listen_${port}.conf",
+    path    => "${apache::config_dir}/conf.d/0000_listen_${name}.conf",
     mode    => $apache::config_file_mode,
     owner   => $apache::config_file_owner,
     group   => $apache::config_file_group,
     require => Package['apache'],
     notify  => $manage_service_autorestart,
-    content => template(${template}),
+    content => template("${template}"),
     audit   => $apache::manage_audit,
   }
 

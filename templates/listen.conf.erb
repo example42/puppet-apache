@@ -1,6 +1,6 @@
 # File Handled by Puppet
 
 <% if @namevirtualhost -%>
-NameVirtualHost <%= @namevirtualhost %>:<%= @port %>
+NameVirtualHost <%= @namevirtualhost %>:<%= @name %>
 <% end %>
-Listen <%= @port %>
+Listen <%= @name %>
