@@ -39,4 +39,29 @@ class apache::ssl {
     }
   }
 
+  ### Port monitoring, if enabled ( monitor => true )
+  if $apache::bool_monitor == true {
+    monitor::port { "apache_${apache::protocol}_${apache::ssl_port}":
+      protocol => $apache::protocol,
+      port     => $apache::ssl_port,
+      target   => $apache::monitor_target,
+      tool     => $apache::monitor_tool,
+      enable   => $apache::manage_monitor,
+    }
+  }
+
+  ### Firewall management, if enabled ( firewall => true )
+  if $apache::bool_firewall == true {
+    firewall { "apache_${apache::protocol}_${apache::ssl_port}":
+      source      => $apache::firewall_src,
+      destination => $apache::firewall_dst,
+      protocol    => $apache::protocol,
+      port        => $apache::ssl_port,
+      action      => 'allow',
+      direction   => 'input',
+      tool        => $apache::firewall_tool,
+      enable      => $apache::manage_firewall,
+    }
+  }
+
 }
