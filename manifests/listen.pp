@@ -35,7 +35,7 @@ define apache::listen (
     group   => $apache::config_file_group,
     require => Package['apache'],
     notify  => $manage_service_autorestart,
-    content => template("${template}"),
+    content => template($template),
     audit   => $apache::manage_audit,
   }
 

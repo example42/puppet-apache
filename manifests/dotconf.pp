@@ -35,7 +35,7 @@ define apache::dotconf (
     default   => $content,
   }
 
-  file { "Apache_$name.conf":
+  file { "Apache_${name}.conf":
     ensure  => $ensure,
     path    => "${apache::config_dir}/conf.d/${name}.conf",
     mode    => $apache::config_file_mode,

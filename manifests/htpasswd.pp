@@ -17,11 +17,11 @@
 # [*crypt_password*]
 #   Crypted password (as it appears in htpasswd)
 #   Default: false (either crypt_password or clear_password must be set)
-#  
-# [*clear_password*]   
-#   Clear password (as it appears in htpasswd)   
+#
+# [*clear_password*]
+#   Clear password (as it appears in htpasswd)
 #   Default: false (either crypt_password or clear_password must be set)
-# 
+#
 #
 # == Usage
 #

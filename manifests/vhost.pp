@@ -117,7 +117,7 @@ define apache::vhost (
   $source                       = '',
   $priority                     = '50',
   $serveraliases                = '',
-  $env_variables                = '', 
+  $env_variables                = '',
   $passenger                    = false,
   $passenger_high_performance   = true,
   $passenger_max_pool_size      = 12,
@@ -153,7 +153,7 @@ define apache::vhost (
   }
 
   $real_directory = $directory ? {
-    ''      => "${apache::data_dir}",
+    ''      => $apache::data_dir,
     default => $directory,
   }
 
@@ -169,11 +169,11 @@ define apache::vhost (
 
   # Server admin email
   if $server_admin != '' {
-    $server_admin_email = "${server_admin}"
+    $server_admin_email = $server_admin
   } elsif ($name != 'default') and ($name != 'default-ssl') {
     $server_admin_email = "webmaster@${name}"
   } else {
-    $server_admin_email = "webmaster@localhost"
+    $server_admin_email = 'webmaster@localhost'
   }
 
   # Config file path
@@ -202,7 +202,7 @@ define apache::vhost (
 
   include apache
 
-  file { "${config_file_path}":
+  file { $config_file_path:
     ensure  => $ensure,
     source  => $manage_file_source,
     content => $manage_file_content,
@@ -217,12 +217,13 @@ define apache::vhost (
   # On Debian/Ubuntu manages sites-enabled
   case $::operatingsystem {
     ubuntu,debian,mint: {
-      file { "ApacheVHostEnabled_$name":
-        ensure  => $enable ? {
-          true  => "${config_file_path}",
-          false => absent,
-        },
-        path    => "${config_file_enable_path}",
+      $file_vhost_link_ensure = $enable ? {
+        true  => $config_file_path,
+        false => absent,
+      }
+      file { "ApacheVHostEnabled_${name}":
+        ensure  => $file_vhost_link_ensure,
+        path    => $config_file_enable_path,
         require => Package['apache'],
       }
     }
