@@ -27,6 +27,51 @@ For detailed info about the logic and usage patterns of Example42 modules read R
            template => 'example42/apache/vhost/mysite.com.erb',
          }
 
+
+* Install mod ssl
+
+        include apache::ssl
+
+
+* Manage basic auth users (Here user joe is created with the $crypt_password on the defined htpasswd_file
+
+        apache::htpasswd { 'joe':
+          crypt_password => 'B5dPQYYjf.jjA',
+          htpasswd_file  => '/etc/httpd/users.passwd',
+        }
+
+
+* Manage custom configuration files (created in conf.d, source or content can be defined)
+
+        apache::dotconf { 'trac':
+          content => 'template("site/trac/apache.conf.erb")'
+        }
+
+
+* Add other listening ports (a relevant NameVirtualHost directive is automatically created)
+
+        apache::listen { '8080': }
+
+
+* Add other listening ports without creating a relevant NameVirtualHost directive
+
+        apache::listen { '8080':
+          $namevirtualhost = false,
+        }
+
+
+* Add an apache module and manage its configuraton
+
+        apache::module { 'proxy':
+          templatefile => 'site/apache/module/proxy.conf.erb',
+        }
+
+
+* Install mod passenger
+
+        include apache::passenger
+
+
 ## USAGE - Basic management
 
 * Install apache with default settings
