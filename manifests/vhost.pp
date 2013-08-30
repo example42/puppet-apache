@@ -105,35 +105,35 @@
 #  }
 #
 define apache::vhost (
-  $server_admin                  = '',
-  $server_name                   = '',
-  $docroot                       = '',
-  $docroot_create                = false,
-  $docroot_owner                 = 'root',
-  $docroot_group                 = 'root',
-  $port                          = '80',
-  $ssl                           = false,
-  $template                      = 'apache/virtualhost/vhost.conf.erb',
-  $source			                   = '',
-  $priority                      = '50',
-  $serveraliases                 = '',
-  $env_variables                 = '', 
-  $passenger                     = false,
-  $passenger_high_performance    = true,
-  $passenger_max_pool_size       = 12,
-  $passenger_pool_idle_time      = 1200,
-  $passenger_max_requests        = 0,
-  $passenger_stat_throttle_rate  = 30,
-  $passenger_rack_auto_detect    = true,
-  $passenger_rails_auto_detect   = false,
-  $passenger_rails_env           = '',
-  $passenger_rails_base_uri      = '',
-  $passenger_rack_env            = '',
-  $passenger_rack_base_uri       = '',
-  $enable                        = true,
-  $directory                     = '',
-  $directory_options             = '',
-  $directory_allow_override      = 'None'
+  $server_admin                 = '',
+  $server_name                  = '',
+  $docroot                      = '',
+  $docroot_create               = false,
+  $docroot_owner                = 'root',
+  $docroot_group                = 'root',
+  $port                         = '80',
+  $ssl                          = false,
+  $template                     = 'apache/virtualhost/vhost.conf.erb',
+  $source                       = '',
+  $priority                     = '50',
+  $serveraliases                = '',
+  $env_variables                = '', 
+  $passenger                    = false,
+  $passenger_high_performance   = true,
+  $passenger_max_pool_size      = 12,
+  $passenger_pool_idle_time     = 1200,
+  $passenger_max_requests       = 0,
+  $passenger_stat_throttle_rate = 30,
+  $passenger_rack_auto_detect   = true,
+  $passenger_rails_auto_detect  = false,
+  $passenger_rails_env          = '',
+  $passenger_rails_base_uri     = '',
+  $passenger_rack_env           = '',
+  $passenger_rack_base_uri      = '',
+  $enable                       = true,
+  $directory                    = '',
+  $directory_options            = '',
+  $directory_allow_override     = 'None'
 ) {
 
   $ensure = $enable ? {
@@ -167,12 +167,6 @@ define apache::vhost (
     default => $source,
   }
 
-  $manage_file_content = $template ? {
-    ''      => undef,
-    undef   => undef,
-    default => template($template),
-  }
-
   # Server admin email
   if $server_admin != '' {
     $server_admin_email = "${server_admin}"
@@ -200,17 +194,24 @@ define apache::vhost (
     $config_file_enable_path = "${apache::config_dir}/sites-enabled/000-${name}"
   }
 
+  $manage_file_content = $template ? {
+    ''      => undef,
+    undef   => undef,
+    default => template($template),
+  }
+
   include apache
-	  file { "${config_file_path}":
-	    ensure  => $ensure,
-	    source  => $manage_file_source,
-	    content => $manage_file_content,
-	    mode    => $apache::config_file_mode,
-	    owner   => $apache::config_file_owner,
-	    group   => $apache::config_file_group,
-	    require => Package['apache'],
-	    notify  => $apache::manage_service_autorestart,
-  	}
+
+  file { "${config_file_path}":
+    ensure  => $ensure,
+    source  => $manage_file_source,
+    content => $manage_file_content,
+    mode    => $apache::config_file_mode,
+    owner   => $apache::config_file_owner,
+    group   => $apache::config_file_group,
+    require => Package['apache'],
+    notify  => $apache::manage_service_autorestart,
+  }
 
   # Some OS specific settings:
   # On Debian/Ubuntu manages sites-enabled
