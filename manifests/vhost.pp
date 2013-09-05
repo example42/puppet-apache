@@ -134,7 +134,7 @@ define apache::vhost (
   $directory                    = '',
   $directory_options            = '',
   $directory_allow_override     = 'None',
-  $aliases                      = ""
+  $aliases                      = ''
 ) {
 
   $ensure = $enable ? {
