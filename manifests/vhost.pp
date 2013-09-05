@@ -88,6 +88,10 @@
 # [*directory_allow_override*]
 #   Set the directory's override configuration
 #
+# [*aliases*]
+#   Set one or more Alias directives (e.g '/phpmyadmin /usr/share/phpMyAdmin'
+#   or ['/alias1 /path/to/alias', '/alias2 /path/to/secondalias'])
+#
 # == Examples:
 #  apache::vhost { 'site.name.fqdn':
 #    docroot  => '/path/to/docroot',
@@ -102,6 +106,11 @@
 #    docroot                    => '/path/to/docroot',
 #    directory                  => '/path/to',
 #    directory_allow_override   => 'All',
+#  }
+#
+#  apache::vhost { 'sitewithalias':
+#    docroot                    => '/path/to/docroot',
+#    aliases                    => '/phpmyadmin /usr/share/phpMyAdmin',
 #  }
 #
 define apache::vhost (
@@ -133,7 +142,8 @@ define apache::vhost (
   $enable                       = true,
   $directory                    = '',
   $directory_options            = '',
-  $directory_allow_override     = 'None'
+  $directory_allow_override     = 'None',
+  $aliases                      = ''
 ) {
 
   $ensure = $enable ? {
