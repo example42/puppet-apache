@@ -133,7 +133,8 @@ define apache::vhost (
   $enable                       = true,
   $directory                    = '',
   $directory_options            = '',
-  $directory_allow_override     = 'None'
+  $directory_allow_override     = 'None',
+  $aliases                      = ""
 ) {
 
   $ensure = $enable ? {
