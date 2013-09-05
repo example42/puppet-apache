@@ -49,4 +49,14 @@
         <% end -%>
     </Directory>
 <% end -%>
+
+<% if @aliases != "" -%>
+<% if @aliases.is_a? Array -%>
+<% aliases.each do |singlealias| %>
+    Alias <%= @singlealias %>
+<% end -%>
+<% else -%>
+    Alias <%= @aliases %>
+<% end -%>
+<% end -%>
 </VirtualHost>
