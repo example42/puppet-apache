@@ -252,7 +252,7 @@ class apache (
   $log_dir             = params_lookup( 'log_dir' ),
   $log_file            = params_lookup( 'log_file' ),
   $port                = params_lookup( 'port' ),
-  $sslport	       = params_lookup( 'sslport' ),
+  $sslport             = params_lookup( 'sslport' ),
   $protocol            = params_lookup( 'protocol' ),
   $version             = params_lookup( 'version' )
   ) inherits apache::params {
