@@ -316,6 +316,7 @@ class apache (
 
   if $apache::bool_absent == true
   or $apache::bool_disable == true
+  or $apache::bool_monitor == false
   or $apache::bool_disableboot == true {
     $manage_monitor = false
   } else {
@@ -418,7 +419,7 @@ class apache (
 
 
   ### Service monitoring, if enabled ( monitor => true )
-  if $apache::bool_monitor == true {
+  if $apache::monitor_tool {
     monitor::port { "apache_${apache::protocol}_${apache::port}":
       protocol => $apache::protocol,
       port     => $apache::port,
