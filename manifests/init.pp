@@ -149,6 +149,9 @@
 # [*process_user*]
 #   The name of the user apache runs with. Used by puppi and monitor.
 #
+# [*lock_dir*]
+#   The Lock dir as used by Apache Httpd
+#
 # [*config_dir*]
 #   Main configuration directory. Used by puppi
 #
@@ -242,6 +245,7 @@ class apache (
   $process                   = params_lookup( 'process' ),
   $process_args              = params_lookup( 'process_args' ),
   $process_user              = params_lookup( 'process_user' ),
+  $lock_dir                  = params_lookup( 'lock_dir' ),
   $config_dir                = params_lookup( 'config_dir' ),
   $config_file               = params_lookup( 'config_file' ),
   $config_file_mode          = params_lookup( 'config_file_mode' ),
@@ -314,6 +318,11 @@ class apache (
     default => 'present',
   }
 
+  $manage_directory = $apache::bool_absent ? {
+    true    => 'absent',
+    default => 'directory',
+  }
+
   if $apache::bool_absent == true
   or $apache::bool_disable == true
   or $apache::bool_monitor == false
@@ -375,6 +384,17 @@ class apache (
     source  => $apache::manage_file_source,
     content => $apache::manage_file_content,
     replace => $apache::manage_file_replace,
+    audit   => $apache::manage_audit,
+  }
+
+  file { 'apache.lock.dir':
+    ensure  => $apache::manage_directory,
+    path    => $apache::lock_dir,
+    mode    => 0755,
+    owner   => $apache::process_user,
+    group   => $apache::config_file_group,
+    require => Package['apache'],
+    notify  => $apache::manage_service_autorestart,
     audit   => $apache::manage_audit,
   }
 

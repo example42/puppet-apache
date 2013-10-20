@@ -62,6 +62,13 @@ class apache::params {
     default                   => '/etc/httpd',
   }
 
+  $lock_dir = $::operatingsystem ? {
+    /(?i:Ubuntu|Debian|Mint)/ => '/var/lock/apache2',
+    /(?i:SLES|OpenSuSE)/      => '/var/lock/apache2',
+    default                   => '/var/lock/apache2',
+  }
+
+
   $config_file = $::operatingsystem ? {
     /(?i:Ubuntu|Debian|Mint)/ => '/etc/apache2/apache2.conf',
     /(?i:SLES|OpenSuSE)/      => '/etc/apache2/httpd.conf',
