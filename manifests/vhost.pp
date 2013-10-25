@@ -88,6 +88,9 @@
 # [*directory_allow_override*]
 #   Set the directory's override configuration
 #
+# [*directory_require_granted*]
+#   Set the Require all granted attribute for Apache 2.4
+#
 # [*aliases*]
 #   Set one or more Alias directives (e.g '/phpmyadmin /usr/share/phpMyAdmin'
 #   or ['/alias1 /path/to/alias', '/alias2 /path/to/secondalias'])
@@ -143,6 +146,7 @@ define apache::vhost (
   $directory                    = '',
   $directory_options            = '',
   $directory_allow_override     = 'None',
+  $directory_require_granted    = false,
   $aliases                      = ''
 ) {
 

@@ -47,6 +47,9 @@
         <% if @directory_allow_override != "None" -%>
         AllowOverride <%= @directory_allow_override %>
         <% end -%>
+        <% if @directory_require_granted -%>
+        Require all granted
+        <% end -%>
     </Directory>
 <% end -%>
 
