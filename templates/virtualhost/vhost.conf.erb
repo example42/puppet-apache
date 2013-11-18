@@ -52,7 +52,7 @@
 
 <% if @aliases != "" -%>
 <% if @aliases.is_a? Array -%>
-<% aliases.each do |singlealias| %>
+<% @aliases.each do |singlealias| %>
     Alias <%= singlealias %>
 <% end -%>
 <% else -%>
