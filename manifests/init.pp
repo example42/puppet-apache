@@ -230,6 +230,8 @@ class apache (
   $monitor                   = params_lookup( 'monitor' , 'global' ),
   $monitor_tool              = params_lookup( 'monitor_tool' , 'global' ),
   $monitor_target            = params_lookup( 'monitor_target' , 'global' ),
+  $monitor_service           = params_lookup( 'monitor_service', 'global' ),
+  $monitor_port              = params_lookup( 'monitor_port', 'global' ),
   $puppi                     = params_lookup( 'puppi' , 'global' ),
   $puppi_helper              = params_lookup( 'puppi_helper' , 'global' ),
   $firewall                  = params_lookup( 'firewall' , 'global' ),
@@ -437,24 +439,28 @@ class apache (
     }
   }
 
-
   ### Service monitoring, if enabled ( monitor => true )
   if $apache::monitor_tool {
-    monitor::port { "apache_${apache::protocol}_${apache::port}":
-      protocol => $apache::protocol,
-      port     => $apache::port,
-      target   => $apache::monitor_target,
-      tool     => $apache::monitor_tool,
-      enable   => $apache::manage_monitor,
+    if any2bool($apache::monitor_port) {
+      monitor::port { "apache_${apache::protocol}_${apache::port}":
+        protocol => $apache::protocol,
+        port     => $apache::port,
+        target   => $apache::monitor_target,
+        tool     => $apache::monitor_tool,
+        enable   => $apache::manage_monitor,
+      }
     }
-    monitor::process { 'apache_process':
-      process  => $apache::process,
-      service  => $apache::service,
-      pidfile  => $apache::pid_file,
-      user     => $apache::process_user,
-      argument => $apache::process_args,
-      tool     => $apache::monitor_tool,
-      enable   => $apache::manage_monitor,
+
+    if any2bool($apache::monitor_service) {
+      monitor::process { 'apache_process':
+        process  => $apache::process,
+        service  => $apache::service,
+        pidfile  => $apache::pid_file,
+        user     => $apache::process_user,
+        argument => $apache::process_args,
+        tool     => $apache::monitor_tool,
+        enable   => $apache::manage_monitor,
+      }
     }
   }
 

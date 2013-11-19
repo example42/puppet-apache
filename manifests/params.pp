@@ -144,7 +144,10 @@ class apache::params {
   $disableboot = false
 
   ### General module variables that can have a site or per module default
-  $monitor = false
+  $monitor         = false
+  $monitor_service = true
+  $monitor_port    = true
+
   $monitor_tool = ''
   $monitor_target = $::ipaddress
   $firewall = false
