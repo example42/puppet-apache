@@ -235,6 +235,7 @@ define apache::vhost (
         ensure  => $file_vhost_link_ensure,
         path    => $config_file_enable_path,
         require => Package['apache'],
+        notify  => $apache::manage_service_autorestart,
       }
     }
     redhat,centos,scientific,fedora: {
