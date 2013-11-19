@@ -271,6 +271,8 @@ class apache (
   $bool_disable=any2bool($disable)
   $bool_disableboot=any2bool($disableboot)
   $bool_monitor=any2bool($monitor)
+  $bool_monitor_port=any2bool($monitor_port)
+  $bool_monitor_service=any2bool($monitor_service)
   $bool_puppi=any2bool($puppi)
   $bool_firewall=any2bool($firewall)
   $bool_debug=any2bool($debug)
@@ -441,7 +443,7 @@ class apache (
 
   ### Service monitoring, if enabled ( monitor => true )
   if $apache::monitor_tool {
-    if any2bool($apache::monitor_port) {
+    if $apache::bool_monitor_port {
       monitor::port { "apache_${apache::protocol}_${apache::port}":
         protocol => $apache::protocol,
         port     => $apache::port,
@@ -451,7 +453,7 @@ class apache (
       }
     }
 
-    if any2bool($apache::monitor_service) {
+    if $apache::bool_monitor_service {
       monitor::process { 'apache_process':
         process  => $apache::process,
         service  => $apache::service,
