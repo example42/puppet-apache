@@ -5,6 +5,9 @@
 # == Parameters:
 # [*port*]
 #   The port to configure the host on
+
+# [*ip*]
+#   The ip to configure the host on. Default: * (all IPs)
 #
 # [*docroot*]
 #   The VirtualHost DocumentRoot
@@ -121,6 +124,7 @@ define apache::vhost (
   $docroot_owner                = 'root',
   $docroot_group                = 'root',
   $port                         = '80',
+  $ip_addr                      = '*',
   $ssl                          = false,
   $template                     = 'apache/virtualhost/vhost.conf.erb',
   $source                       = '',

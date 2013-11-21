@@ -1,6 +1,6 @@
 # File Managed by Puppet
 
-<VirtualHost *:<%= @port %>>
+<VirtualHost <%= @ip_addr %>:<%= @port %>>
     ServerAdmin <%= @server_admin_email ||= 'webmaster@localhost' %>
     DocumentRoot <%= @real_docroot %>
 <% if @server_name_value != false -%>
