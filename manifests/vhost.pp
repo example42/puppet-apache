@@ -6,7 +6,7 @@
 # [*port*]
 #   The port to configure the host on
 
-# [*ip*]
+# [*ip_addr*]
 #   The ip to configure the host on. Default: * (all IPs)
 #
 # [*docroot*]
