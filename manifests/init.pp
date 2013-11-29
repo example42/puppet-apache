@@ -418,6 +418,17 @@ class apache (
     }
   }
 
+  if $::osfamily =~ /(?i:Debian)/ {
+    file { '/etc/apache2/envvars':
+      ensure => file,
+      require => Package['apache'],
+      notify  => $apache::manage_service_autorestart,
+      content => template('apache/envvars.debian.erb'),
+      replace => $apache::manage_file_replace,
+      audit   => $apache::manage_audit,
+    }
+  }
+
   if $apache::config_file_default_purge {
     apache::vhost { 'default':
       enable    => false,
