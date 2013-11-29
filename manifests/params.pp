@@ -55,6 +55,12 @@ class apache::params {
     default                   => 'apache',
   }
 
+  $process_group = $::operatingsystem ? {
+    /(?i:Ubuntu|Debian|Mint)/ => 'www-data',
+    /(?i:SLES|OpenSuSE)/      => 'wwwrun',
+    default                   => 'apache',
+  }
+
   $config_dir = $::operatingsystem ? {
     /(?i:Ubuntu|Debian|Mint)/ => '/etc/apache2',
     /(?i:SLES|OpenSuSE)/      => '/etc/apache2',

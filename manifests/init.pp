@@ -147,7 +147,10 @@
 #   Used only in case the apache process name is generic (java, ruby...)
 #
 # [*process_user*]
-#   The name of the user apache runs with. Used by puppi and monitor.
+#   The name of the user apache runs with. Also used by puppi and monitor.
+#
+# [*process_group*]
+#   The name of the group apache runs with. Also used by puppi and monitor.
 #
 # [*lock_dir*]
 #   The Lock dir as used by Apache Httpd
@@ -247,6 +250,7 @@ class apache (
   $process                   = params_lookup( 'process' ),
   $process_args              = params_lookup( 'process_args' ),
   $process_user              = params_lookup( 'process_user' ),
+  $process_group             = params_lookup( 'process_group' ),
   $lock_dir                  = params_lookup( 'lock_dir' ),
   $config_dir                = params_lookup( 'config_dir' ),
   $config_file               = params_lookup( 'config_file' ),
