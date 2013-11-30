@@ -12,6 +12,9 @@
 # [*docroot*]
 #   The VirtualHost DocumentRoot
 #
+# [*virtualdocroot*]
+#   The VirtualHost VirtualDocumentRoot
+#
 # [*docroot_create*]
 #   If the specified directory has to be created. Default: false
 #
@@ -123,6 +126,7 @@ define apache::vhost (
   $docroot_create               = false,
   $docroot_owner                = 'root',
   $docroot_group                = 'root',
+  $virtualdocroot               = '',
   $port                         = '80',
   $ip_addr                      = '*',
   $ssl                          = false,
