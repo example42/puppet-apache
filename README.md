@@ -44,7 +44,7 @@ For detailed info about the logic and usage patterns of Example42 modules read R
 * Manage custom configuration files (created in conf.d, source or content can be defined)
 
         apache::dotconf { 'trac':
-          content => 'template("site/trac/apache.conf.erb")'
+          content => template("site/trac/apache.conf.erb")
         }
 
 
