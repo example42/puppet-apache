@@ -5,6 +5,7 @@ fixtures:
     "firewall": "https://github.com/example42/puppet-firewall.git"
     "iptables": "https://github.com/example42/puppet-iptables.git"
     "concat": "https://github.com/example42/puppet-concat.git"
+    "stdlib": "https://github.com/puppetlabs/puppetlabs-stdlib"
   symlinks:
     "apache": "#{source_dir}"
 
