@@ -57,5 +57,17 @@ describe 'apache::virtualhost' do
 
   end
 
+  describe 'Test apache::virtualhost decommissioning' do
+  let(:params) {
+    { 'enable'       => 'false',
+      'name'         => 'www.example42.com',
+      'documentroot' => '/var/www/example42.com',
+    }
+  }
+
+    it { should contain_file('ApacheVirtualHost_www.example42.com').with_ensure('absent') }
+    it { should_not contain_file('/var/www/example42.com').with_ensure('directory') }
+  end
+
 end
 
