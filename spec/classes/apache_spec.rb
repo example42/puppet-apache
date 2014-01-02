@@ -31,7 +31,7 @@ describe 'apache' do
   describe 'Test decommissioning - absent' do
     let(:params) { {:absent => true, :monitor => true , :firewall => true, :port => '42'} }
 
-    it 'should remove Package[apache]' do should contain_package('apache').with_ensure('absent') end 
+    it 'should remove Package[apache]' do should contain_package('apache').with_ensure('absent') end
     it 'should stop Service[apache]' do should contain_service('apache').with_ensure('stopped') end
     it 'should not enable at boot Service[apache]' do should contain_service('apache').with_enable('false') end
     it 'should remove apache configuration file' do should contain_file('apache.conf').with_ensure('absent') end
@@ -60,7 +60,7 @@ describe 'apache' do
 
   describe 'Test decommissioning - disableboot' do
     let(:params) { {:disableboot => true, :monitor => true , :firewall => true, :port => '42'} }
-  
+
     it { should contain_package('apache').with_ensure('present') }
     it { should_not contain_service('apache').with_ensure('present') }
     it { should_not contain_service('apache').with_ensure('absent') }
@@ -72,7 +72,7 @@ describe 'apache' do
     it 'should keep a firewall rule' do
       should contain_firewall('apache_tcp_42').with_enable(true)
     end
-  end 
+  end
 
   describe 'Test customizations - template' do
     let(:params) { {:template => "apache/spec.erb" , :options => { 'opt_a' => 'value_a' } } }
@@ -109,8 +109,7 @@ describe 'apache' do
 
   describe 'Test service autorestart' do
     it 'should automatically restart the service, by default' do
-      content = catalogue.resource('file', 'apache.conf').send(:parameters)[:notify]
-      content.should == "Service[apache]"
+      should contain_file('apache.conf').with_notify("Service[apache]")
     end
   end
 
@@ -155,7 +154,7 @@ describe 'apache' do
     it 'should generate firewall resources' do
       should contain_firewall('apache_tcp_42').with_tool("iptables")
     end
-    it 'should generate puppi resources ' do 
+    it 'should generate puppi resources ' do
       should contain_puppi__ze('apache').with_ensure("present")
     end
   end
