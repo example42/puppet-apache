@@ -68,7 +68,10 @@ define apache::virtualhost (
     false => absent,
   }
   $ensure = bool2ensure($enable)
-  $bool_create_docroot = any2bool($create_docroot)
+  $bool_create_docroot = any2bool($enable) ? {
+    true  => any2bool($create_docroot),
+    false => false,
+  }
 
   $real_content = $content ? {
     ''      => template("${templatepath}/${templatefile}"),

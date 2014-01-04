@@ -17,16 +17,13 @@ describe 'apache::virtualhost' do
       should contain_file('ApacheVirtualHost_www.example42.com').with_ensure('present')
     end
     it 'should populate correctly the apache::virtualhost file DocumentRoot' do
-      content = catalogue.resource('file', 'ApacheVirtualHost_www.example42.com').send(:parameters)[:content]
-      content.should match "    DocumentRoot /store/www"
+      should contain_file('ApacheVirtualHost_www.example42.com').with_content(/    DocumentRoot \/store\/www/)
     end
     it 'should populate correctly the apache::virtualhost file ErrorLog' do
-      content = catalogue.resource('file', 'ApacheVirtualHost_www.example42.com').send(:parameters)[:content]
-      content.should match "    ErrorLog  /var/log/httpd/www.example42.com-error_log"
+      should contain_file('ApacheVirtualHost_www.example42.com').with_content(/    ErrorLog  \/var\/log\/httpd\/www.example42.com-error_log/)
     end
     it 'should create the docroot directory' do
-      content = catalogue.resource('file', '/store/www').send(:parameters)[:ensure]
-      content.should match "directory"
+      should contain_file('/store/www').with_ensure("directory")
     end
 
   end
@@ -43,18 +40,27 @@ describe 'apache::virtualhost' do
       should contain_file('ApacheVirtualHostEnabled_www.example42.com').with_ensure('/etc/apache2/sites-available/www.example42.com')
     end
     it 'should populate correctly the apache::virtualhost file DocumentRoot' do
-      content = catalogue.resource('file', 'ApacheVirtualHost_www.example42.com').send(:parameters)[:content]
-      content.should match "    DocumentRoot /var/www/www.example42.com"
+      should contain_file('ApacheVirtualHost_www.example42.com').with_content(/    DocumentRoot \/var\/www\/www.example42.com/)
     end
     it 'should populate correctly the apache::virtualhost file ErrorLog' do
-      content = catalogue.resource('file', 'ApacheVirtualHost_www.example42.com').send(:parameters)[:content]
-      content.should match "    ErrorLog  /var/log/apache2/www.example42.com-error_log"
+      should contain_file('ApacheVirtualHost_www.example42.com').with_content(/    ErrorLog  \/var\/log\/apache2\/www.example42.com-error_log/)
     end
     it 'should create the docroot directory' do
-      content = catalogue.resource('file', '/var/www/www.example42.com').send(:parameters)[:ensure]
-      content.should match "directory"
+      should contain_file('/var/www/www.example42.com').with_ensure("directory")
     end
 
+  end
+
+  describe 'Test apache::virtualhost decommissioning' do
+  let(:params) {
+    { 'enable'       => 'false',
+      'name'         => 'www.example42.com',
+      'documentroot' => '/var/www/example42.com',
+    }
+  }
+
+    it { should contain_file('ApacheVirtualHost_www.example42.com').with_ensure('absent') }
+    it { should_not contain_file('/var/www/example42.com').with_ensure('directory') }
   end
 
 end
