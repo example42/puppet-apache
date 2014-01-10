@@ -266,7 +266,8 @@ class apache (
   $port                      = params_lookup( 'port' ),
   $ssl_port                  = params_lookup( 'ssl_port' ),
   $protocol                  = params_lookup( 'protocol' ),
-  $version                   = params_lookup( 'version' )
+  $version                   = params_lookup( 'version' ),
+  $init_lang                 = params_lookup( 'init_lang' ),
   ) inherits apache::params {
 
   $bool_source_dir_purge=any2bool($source_dir_purge)
@@ -428,6 +429,15 @@ class apache (
       require => Package['apache'],
       notify  => $apache::manage_service_autorestart,
       content => template('apache/envvars.debian.erb'),
+      replace => $apache::manage_file_replace,
+      audit   => $apache::manage_audit,
+    }
+
+    file { '/etc/init.d/apache2':
+      ensure  => file,
+      require => Package['apache'],
+      notify  => $apache::manage_service_autorestart,
+      content => template('apache/init.debian.erb'),
       replace => $apache::manage_file_replace,
       audit   => $apache::manage_audit,
     }
