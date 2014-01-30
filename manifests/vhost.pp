@@ -5,6 +5,9 @@
 # == Parameters:
 # [*port*]
 #   The port to configure the host on
+
+# [*ip_addr*]
+#   The ip to configure the host on. Default: * (all IPs)
 #
 # [*docroot*]
 #   The VirtualHost DocumentRoot
@@ -124,6 +127,7 @@ define apache::vhost (
   $docroot_owner                = 'root',
   $docroot_group                = 'root',
   $port                         = '80',
+  $ip_addr                      = '*',
   $ssl                          = false,
   $template                     = 'apache/virtualhost/vhost.conf.erb',
   $source                       = '',
@@ -239,6 +243,7 @@ define apache::vhost (
         ensure  => $file_vhost_link_ensure,
         path    => $config_file_enable_path,
         require => Package['apache'],
+        notify  => $apache::manage_service_autorestart,
       }
     }
     redhat,centos,scientific,fedora: {
