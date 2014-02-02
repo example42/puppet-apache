@@ -7,3 +7,6 @@ Session.vim
 spec/fixtures
 .*.sw[a-z]
 *.un~
+/.gemfile.lock
+/.gemfile.travis.lock
+
