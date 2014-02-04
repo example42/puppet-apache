@@ -16,9 +16,9 @@ class apache::params {
 
   ### Application specific parameters
   $package_modssl = $::operatingsystem ? {
-    /(?i:Ubuntu|Debian|Mint)/ => 'libapache-mod-ssl',
-    /(?i:SLES|OpenSuSE)/      => undef,
-    default                   => 'mod_ssl',
+    /(?i:Ubuntu|Debian|Mint)/    => 'libapache-mod-ssl',
+    /(?i:SLES|OpenSuSE|FreeBSD)/ => undef,
+    default                      => 'mod_ssl',
   }
 
   ### Application related parameters
@@ -26,12 +26,14 @@ class apache::params {
   $package = $::operatingsystem ? {
     /(?i:Ubuntu|Debian|Mint)/ => 'apache2',
     /(?i:SLES|OpenSuSE)/      => 'apache2',
+    'FreeBSD'                 => 'www/apache24',
     default                   => 'httpd',
   }
 
   $service = $::operatingsystem ? {
     /(?i:Ubuntu|Debian|Mint)/ => 'apache2',
     /(?i:SLES|OpenSuSE)/      => 'apache2',
+    'FreeBSD'                 => 'apache24',
     default                   => 'httpd',
   }
 
@@ -52,25 +54,28 @@ class apache::params {
   $process_user = $::operatingsystem ? {
     /(?i:Ubuntu|Debian|Mint)/ => 'www-data',
     /(?i:SLES|OpenSuSE)/      => 'wwwrun',
+    'FreeBSD'                 => 'www',
     default                   => 'apache',
   }
 
   $process_group = $::operatingsystem ? {
     /(?i:Ubuntu|Debian|Mint)/ => 'www-data',
     /(?i:SLES|OpenSuSE)/      => 'wwwrun',
+    'FreeBSD'                 => 'www',
     default                   => 'apache',
   }
 
   $config_dir = $::operatingsystem ? {
     /(?i:Ubuntu|Debian|Mint)/ => '/etc/apache2',
     /(?i:SLES|OpenSuSE)/      => '/etc/apache2',
-    freebsd                   => '/usr/local/etc/apache20',
+    'FreeBSD'                 => '/usr/local/etc/apache24',
     default                   => '/etc/httpd',
   }
 
   $lock_dir = $::operatingsystem ? {
     /(?i:Ubuntu|Debian|Mint)/ => '/var/lock/apache2',
     /(?i:SLES|OpenSuSE)/      => '/var/lock/apache2',
+    'FreeBSD'                 => '',
     default                   => '/var/lock/apache2',
   }
 
@@ -78,7 +83,7 @@ class apache::params {
   $config_file = $::operatingsystem ? {
     /(?i:Ubuntu|Debian|Mint)/ => '/etc/apache2/apache2.conf',
     /(?i:SLES|OpenSuSE)/      => '/etc/apache2/httpd.conf',
-    freebsd                   => '/usr/local/etc/apache20/httpd.conf',
+    'FreeBSD'                 => '/usr/local/etc/apache24/httpd.conf',
     default                   => '/etc/httpd/conf/httpd.conf',
   }
 
@@ -91,13 +96,14 @@ class apache::params {
   }
 
   $config_file_group = $::operatingsystem ? {
-    freebsd => 'wheel',
+    'FreeBSD' => 'wheel',
     default => 'root',
   }
 
   $config_file_init = $::operatingsystem ? {
     /(?i:Debian|Ubuntu|Mint)/ => '/etc/default/apache2',
     /(?i:SLES|OpenSuSE)/      => '/etc/sysconfig/apache2',
+    'FreeBSD'                 => '',
     default                   => '/etc/sysconfig/httpd',
   }
 
@@ -122,6 +128,7 @@ class apache::params {
   $data_dir = $::operatingsystem ? {
     /(?i:Debian|Ubuntu|Mint)/ => '/var/www',
     /(?i:Suse|OpenSuse)/      => '/srv/www/htdocs',
+    'FreeBSD'                 => '/usr/local/www/apache24/data',
     default                   => '/var/www/html',
   }
 

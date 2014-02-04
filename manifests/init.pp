@@ -286,6 +286,7 @@ class apache (
   ### Calculation of variables that dependes on arguments
   $vdir = $::operatingsystem ? {
     /(?i:Ubuntu|Debian|Mint)/ => "${apache::config_dir}/sites-available",
+    'FreeBSD'                 => "${apache::config_dir}/Includes/",
     default                   => "${apache::config_dir}/conf.d",
   }
 
@@ -396,15 +397,28 @@ class apache (
     audit   => $apache::manage_audit,
   }
 
-  file { 'apache.lock.dir':
-    ensure  => $apache::manage_directory,
-    path    => $apache::lock_dir,
-    mode    => 0755,
-    owner   => $apache::process_user,
-    group   => $apache::config_file_group,
-    require => Package['apache'],
-    notify  => $apache::manage_service_autorestart,
-    audit   => $apache::manage_audit,
+  if $::operatingsystem == 'FreeBSD' {
+    file { 'apache.log.dir':
+      ensure => $apache::manage_directory,
+      path    => $apache::log_dir,
+      mode    => 0755,
+      owner   => $apache::process_user,
+      group   => $apache::config_file_group,
+      require => Package['apache'],
+    }
+  }
+
+  if $apache::lock_dir != '' {
+    file { 'apache.lock.dir':
+      ensure  => $apache::manage_directory,
+      path    => $apache::lock_dir,
+      mode    => 0755,
+      owner   => $apache::process_user,
+      group   => $apache::config_file_group,
+      require => Package['apache'],
+      notify  => $apache::manage_service_autorestart,
+      audit   => $apache::manage_audit,
+    }
   }
 
   # The whole apache configuration directory can be recursively overriden
