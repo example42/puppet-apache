@@ -1,5 +1,5 @@
 name 'example42-apache'
-version '2.1.4'
+version '2.1.5'
 
 author 'Alessandro Franceschi'
 license 'Apache2'
