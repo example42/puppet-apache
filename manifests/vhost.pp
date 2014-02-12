@@ -88,9 +88,6 @@
 # [*directory_allow_override*]
 #   Set the directory's override configuration
 #
-# [*directory_access_control*]
-#   Manage access to directory
-#
 # [*aliases*]
 #   Set one or more Alias directives (e.g '/phpmyadmin /usr/share/phpMyAdmin'
 #   or ['/alias1 /path/to/alias', '/alias2 /path/to/secondalias'])
@@ -146,7 +143,6 @@ define apache::vhost (
   $directory                    = '',
   $directory_options            = '',
   $directory_allow_override     = 'None',
-  $directory_access_control     = {},
   $aliases                      = ''
 ) {
 
