@@ -41,15 +41,15 @@
 <% end -%>
 <% if @directory_options != "" || @directory_allow_override != "None" || @directory_require != "" -%>
     <Directory <%= @real_directory %>>
-        <% if @directory_options != "" -%>
+<% if @directory_options != "" -%>
         Options <%= @directory_options %>
-        <% end -%>
-        <% if @directory_allow_override != "None" -%>
+<% end -%>
+<% if @directory_allow_override != "None" -%>
         AllowOverride <%= @directory_allow_override %>
-        <% end -%>
-        <% if @directory_require != "" -%>
-        Require <%= @directory_require -%>
-        <% end -%>
+<% end -%>
+<% if @directory_require != "" -%>
+        Require <%= @directory_require %>
+<% end -%>
     </Directory>
 <% end -%>
 
