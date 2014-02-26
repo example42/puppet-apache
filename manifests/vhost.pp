@@ -3,6 +3,9 @@
 # This class manages Apache Virtual Hosts configuration files
 #
 # == Parameters:
+# [*ipaddress*]
+#   The IP address(es) to configure the vhost on
+#
 # [*port*]
 #   The port to configure the host on
 #
@@ -120,6 +123,7 @@ define apache::vhost (
   $docroot_create               = false,
   $docroot_owner                = 'root',
   $docroot_group                = 'root',
+  $ipaddress                    = [],
   $port                         = '80',
   $ssl                          = false,
   $template                     = 'apache/virtualhost/vhost.conf.erb',
