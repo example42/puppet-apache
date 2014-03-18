@@ -126,6 +126,10 @@ define apache::vhost (
   $ipaddress                    = [],
   $port                         = '80',
   $ssl                          = false,
+  $ssl_crt_file                 = '',
+  $ssl_cert_key_file            = '',
+  $ssl_crt_chain_file           = '',
+  $ssl_cipher_suite             = 'HIGH:!aNULL:!MD5',
   $template                     = 'apache/virtualhost/vhost.conf.erb',
   $source                       = '',
   $priority                     = '50',
@@ -160,6 +164,7 @@ define apache::vhost (
   $bool_passenger_high_performance   = any2bool($passenger_high_performance)
   $bool_passenger_rack_auto_detect   = any2bool($passenger_rack_auto_detect)
   $bool_passenger_rails_auto_detect  = any2bool($passenger_rails_auto_detect)
+  $bool_ssl                          = any2bool($ssl)
 
   $real_docroot = $docroot ? {
     ''      => "${apache::data_dir}/${name}",
@@ -215,6 +220,12 @@ define apache::vhost (
   }
 
   include apache
+
+  if $bool_ssl {
+    if ! defined(Apache::Module['ssl']) {
+      apache::module { 'ssl': }
+    }
+  }
 
   file { $config_file_path:
     ensure  => $ensure,
