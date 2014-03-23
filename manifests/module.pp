@@ -85,6 +85,7 @@ define apache::module (
   if $templatefile != '' {
     $module_conf_path = $::operatingsystem ? {
       /(?i:Ubuntu|Debian|Mint)/ => "${apache::config_dir}/mods-available/${name}.conf",
+      /(?i:FreeBSD)/            => "${apache::config_dir}/modules.d/000_${name}.conf",
       default                   => "${apache::config_dir}/conf.d/module_${name}.conf",
     }
 

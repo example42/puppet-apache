@@ -127,7 +127,7 @@ define apache::vhost (
   $port                         = '80',
   $ssl                          = false,
   $ssl_crt_file                 = '',
-  $ssl_cert_key_file            = '',
+  $ssl_crt_key_file             = '',
   $ssl_crt_chain_file           = '',
   $ssl_cipher_suite             = 'HIGH:!aNULL:!MD5',
   $template                     = 'apache/virtualhost/vhost.conf.erb',
