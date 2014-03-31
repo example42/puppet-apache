@@ -14,8 +14,8 @@
 <% end -%>
 <% end -%>
 <% if @env_variables != "" -%>
-<% if env_variables.is_a? Array -%>
-<% env_variables.each do |envvars| -%>
+<% if @env_variables.is_a? Array -%>
+<% @env_variables.each do |envvars| -%>
     SetEnv <%= envvars %>
 <% end -%>
 <% end -%>
