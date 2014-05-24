@@ -40,7 +40,7 @@ class apache::ssl {
   }
 
   ### Port monitoring, if enabled ( monitor => true )
-  if $apache::bool_monitor == true {
+  if $apache::bool_monitor == true and $apache::bool_monitor_port == true {
     monitor::port { "apache_${apache::protocol}_${apache::ssl_port}":
       protocol => $apache::protocol,
       port     => $apache::ssl_port,

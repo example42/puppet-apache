@@ -147,7 +147,13 @@
 #   Used only in case the apache process name is generic (java, ruby...)
 #
 # [*process_user*]
-#   The name of the user apache runs with. Used by puppi and monitor.
+#   The name of the user apache runs with. Also used by puppi and monitor.
+#
+# [*process_group*]
+#   The name of the group apache runs with. Also used by puppi and monitor.
+#
+# [*lock_dir*]
+#   The Lock dir as used by Apache Httpd
 #
 # [*config_dir*]
 #   Main configuration directory. Used by puppi
@@ -227,6 +233,8 @@ class apache (
   $monitor                   = params_lookup( 'monitor' , 'global' ),
   $monitor_tool              = params_lookup( 'monitor_tool' , 'global' ),
   $monitor_target            = params_lookup( 'monitor_target' , 'global' ),
+  $monitor_service           = params_lookup( 'monitor_service', 'global' ),
+  $monitor_port              = params_lookup( 'monitor_port', 'global' ),
   $puppi                     = params_lookup( 'puppi' , 'global' ),
   $puppi_helper              = params_lookup( 'puppi_helper' , 'global' ),
   $firewall                  = params_lookup( 'firewall' , 'global' ),
@@ -242,6 +250,8 @@ class apache (
   $process                   = params_lookup( 'process' ),
   $process_args              = params_lookup( 'process_args' ),
   $process_user              = params_lookup( 'process_user' ),
+  $process_group             = params_lookup( 'process_group' ),
+  $lock_dir                  = params_lookup( 'lock_dir' ),
   $config_dir                = params_lookup( 'config_dir' ),
   $config_file               = params_lookup( 'config_file' ),
   $config_file_mode          = params_lookup( 'config_file_mode' ),
@@ -256,7 +266,8 @@ class apache (
   $port                      = params_lookup( 'port' ),
   $ssl_port                  = params_lookup( 'ssl_port' ),
   $protocol                  = params_lookup( 'protocol' ),
-  $version                   = params_lookup( 'version' )
+  $version                   = params_lookup( 'version' ),
+  $init_lang                 = params_lookup( 'init_lang' ),
   ) inherits apache::params {
 
   $bool_source_dir_purge=any2bool($source_dir_purge)
@@ -265,6 +276,8 @@ class apache (
   $bool_disable=any2bool($disable)
   $bool_disableboot=any2bool($disableboot)
   $bool_monitor=any2bool($monitor)
+  $bool_monitor_port=any2bool($monitor_port)
+  $bool_monitor_service=any2bool($monitor_service)
   $bool_puppi=any2bool($puppi)
   $bool_firewall=any2bool($firewall)
   $bool_debug=any2bool($debug)
@@ -273,6 +286,7 @@ class apache (
   ### Calculation of variables that dependes on arguments
   $vdir = $::operatingsystem ? {
     /(?i:Ubuntu|Debian|Mint)/ => "${apache::config_dir}/sites-available",
+    'FreeBSD'                 => "${apache::config_dir}/Includes/",
     default                   => "${apache::config_dir}/conf.d",
   }
 
@@ -312,6 +326,11 @@ class apache (
   $manage_file = $apache::bool_absent ? {
     true    => 'absent',
     default => 'present',
+  }
+
+  $manage_directory = $apache::bool_absent ? {
+    true    => 'absent',
+    default => 'directory',
   }
 
   if $apache::bool_absent == true
@@ -378,6 +397,30 @@ class apache (
     audit   => $apache::manage_audit,
   }
 
+  if $::operatingsystem == 'FreeBSD' {
+    file { 'apache.log.dir':
+      ensure => $apache::manage_directory,
+      path    => $apache::log_dir,
+      mode    => 0755,
+      owner   => $apache::process_user,
+      group   => $apache::config_file_group,
+      require => Package['apache'],
+    }
+  }
+
+  if $apache::lock_dir != '' {
+    file { 'apache.lock.dir':
+      ensure  => $apache::manage_directory,
+      path    => $apache::lock_dir,
+      mode    => 0755,
+      owner   => $apache::process_user,
+      group   => $apache::config_file_group,
+      require => Package['apache'],
+      notify  => $apache::manage_service_autorestart,
+      audit   => $apache::manage_audit,
+    }
+  }
+
   # The whole apache configuration directory can be recursively overriden
   if $apache::source_dir {
     file { 'apache.dir':
@@ -389,6 +432,26 @@ class apache (
       recurse => true,
       purge   => $apache::bool_source_dir_purge,
       force   => $apache::bool_source_dir_purge,
+      replace => $apache::manage_file_replace,
+      audit   => $apache::manage_audit,
+    }
+  }
+
+  if $::osfamily =~ /(?i:Debian)/ {
+    file { '/etc/apache2/envvars':
+      ensure => file,
+      require => Package['apache'],
+      notify  => $apache::manage_service_autorestart,
+      content => template('apache/envvars.debian.erb'),
+      replace => $apache::manage_file_replace,
+      audit   => $apache::manage_audit,
+    }
+
+    file { '/etc/init.d/apache2':
+      ensure  => file,
+      require => Package['apache'],
+      notify  => $apache::manage_service_autorestart,
+      content => template('apache/init.debian.erb'),
       replace => $apache::manage_file_replace,
       audit   => $apache::manage_audit,
     }
@@ -417,24 +480,28 @@ class apache (
     }
   }
 
-
   ### Service monitoring, if enabled ( monitor => true )
   if $apache::monitor_tool {
-    monitor::port { "apache_${apache::protocol}_${apache::port}":
-      protocol => $apache::protocol,
-      port     => $apache::port,
-      target   => $apache::monitor_target,
-      tool     => $apache::monitor_tool,
-      enable   => $apache::manage_monitor,
+    if $apache::bool_monitor_port {
+      monitor::port { "apache_${apache::protocol}_${apache::port}":
+        protocol => $apache::protocol,
+        port     => $apache::port,
+        target   => $apache::monitor_target,
+        tool     => $apache::monitor_tool,
+        enable   => $apache::manage_monitor,
+      }
     }
-    monitor::process { 'apache_process':
-      process  => $apache::process,
-      service  => $apache::service,
-      pidfile  => $apache::pid_file,
-      user     => $apache::process_user,
-      argument => $apache::process_args,
-      tool     => $apache::monitor_tool,
-      enable   => $apache::manage_monitor,
+
+    if $apache::bool_monitor_service {
+      monitor::process { 'apache_process':
+        process  => $apache::process,
+        service  => $apache::service,
+        pidfile  => $apache::pid_file,
+        user     => $apache::process_user,
+        argument => $apache::process_args,
+        tool     => $apache::monitor_tool,
+        enable   => $apache::manage_monitor,
+      }
     }
   }
 

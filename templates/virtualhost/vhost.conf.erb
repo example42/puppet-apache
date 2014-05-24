@@ -62,4 +62,21 @@
     Alias <%= @aliases %>
 <% end -%>
 <% end -%>
+
+<% if @bool_ssl -%>
+    SSLEngine on
+
+<% if @ssl_crt_file != '' -%>
+    SSLCertificateFile      <%= @ssl_crt_file %>
+<% end -%>
+<% if @ssl_crt_key_file != '' -%>
+    SSLCertificateKeyFile   <%= @ssl_crt_key_file %>
+<% end -%>
+<% if @ssl_crt_chain_file != '' -%>
+    SSLCertificateChainFile <%= @ssl_crt_chain_file %>
+<% end -%>
+    SSLCipherSuite          <%= @ssl_cipher_suite %>
+    SSLHonorCipherOrder on
+<% end -%>
+
 </VirtualHost>
