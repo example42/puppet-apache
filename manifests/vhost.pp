@@ -250,7 +250,7 @@ define apache::vhost (
       if $port == '80' {
         include apache::redhat
       } else {
-        if ! Defined(Apache::Listen[$port]) {
+        if ! defined(Apache::Listen[$port]) {
           apache::listen { $port:
             namevirtualhost => $ip_addr,
           }
