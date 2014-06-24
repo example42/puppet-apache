@@ -273,6 +273,7 @@ class apache (
   ### Calculation of variables that dependes on arguments
   $vdir = $::operatingsystem ? {
     /(?i:Ubuntu|Debian|Mint)/ => "${apache::config_dir}/sites-available",
+    SLES                      => "${apache::config_dir}/vhosts.d",
     default                   => "${apache::config_dir}/conf.d",
   }
 
