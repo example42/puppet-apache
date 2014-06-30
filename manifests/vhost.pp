@@ -236,8 +236,9 @@ define apache::vhost (
   case $::operatingsystem {
     ubuntu,debian,mint: {
       $file_vhost_link_ensure = $enable ? {
-        true  => $config_file_path,
-        false => absent,
+        true    => $config_file_path,
+        false   => absent,
+        absent  => absent,
       }
       file { "ApacheVHostEnabled_${name}":
         ensure  => $file_vhost_link_ensure,
