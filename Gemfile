@@ -4,5 +4,8 @@ puppetversion = ENV['PUPPET_VERSION']
 gem 'puppet', puppetversion, :require => false
 gem 'puppet-lint'
 gem 'puppetlabs_spec_helper', '>= 0.1.0'
-gem 'rspec-puppet', '0.1.6'
+gem 'rspec-puppet', '~> 1.0.1'
 
+group :development do
+  gem 'puppet-blacksmith'
+end
