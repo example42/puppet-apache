@@ -123,7 +123,7 @@ For detailed info about the logic and usage patterns of Example42 modules read R
 * Using a source file to create the vhost
 
         apache::vhost { 'default':
-	        source 		=> 'puppet:///files/web/default.conf'
+	        source 		=> 'puppet:///files/web/default.conf',
 	        template	=> '',
         }
 
