@@ -40,7 +40,7 @@
 #   htpasswd_file  => '/etc/httpd/users.passwd',
 # }
 #
-# Set the same user in diferent files 
+# Set the same user in different files 
 # apache::htpasswd { 'myuser':
 #   crypt_password => 'password1',
 #   htpasswd_file  => '/etc/httpd/users.passwd'
