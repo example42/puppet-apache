@@ -7,12 +7,16 @@
 # == Parameters
 #
 # [*ensure*]
-#   Define if the add (present) or remove the user (set as $username)
+#   Define if the add (present) or remove the user (set as $name)
 #   Default: 'present',
 #
 # [*htpasswd_file*]
 #   Path of the htpasswd file to manage.
 #   Default: "${apache::params::config_dir}/htpasswd"
+#
+# [*username*]
+#   Define user name when you have same username and you put it diferent files. 
+#   Default: $name
 #
 # [*crypt_password*]
 #   Crypted password (as it appears in htpasswd)
@@ -45,7 +49,7 @@
 # apache::htpasswd { 'myuser2':
 #   crypt_password => 'password2',
 #   username       => 'myuser',
-#   htpasswd_file  => '/etc/httpd/httpd'
+#   htpasswd_file  => '/etc/httpd/httpd.passwd'
 # }
 #
 define apache::htpasswd (
