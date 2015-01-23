@@ -15,7 +15,7 @@
 #   Default: "${apache::params::config_dir}/htpasswd"
 #
 # [*username*]
-#   Define user name when you have same username and you put it diferent files. 
+#   Define username when you want to put the username in different files 
 #   Default: $name
 #
 # [*crypt_password*]
