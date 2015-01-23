@@ -39,14 +39,13 @@
 # Set the same user in diferent files 
 # apache::htpasswd { 'myuser':
 #   crypt_password => 'password1',
-#   username       => ''
-#   htpasswd_file  => '/etc/httpd/users.passwd',
+#   htpasswd_file  => '/etc/httpd/users.passwd'
 # }
 #
 # apache::htpasswd { 'myuser2':
 #   crypt_password => 'password2',
-#   username       => 'myuser'
-#   htpasswd_file  => '/etc/httpd/httpd',
+#   username       => 'myuser',
+#   htpasswd_file  => '/etc/httpd/httpd'
 # }
 #
 define apache::htpasswd (
