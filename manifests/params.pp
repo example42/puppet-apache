@@ -119,6 +119,8 @@ class apache::params {
 
   $port = '80'
   $ssl_port = '443'
+  $ssl_source = ''
+  $ssl_template = ''
   $protocol = 'tcp'
 
   # General Settings
