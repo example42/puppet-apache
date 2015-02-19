@@ -37,17 +37,17 @@ class apache::ssl (
         notify  => Service['apache'],
       }
       file { 'ssl.conf':
-        ensure => $apache::manage_file,
-        path => "${apache::ssl::dotconf_dir}/ssl.conf",
-        mode => $apache::config_file_mode,
-        owner => $apache::config_file_owner,
-        group => $apache::config_file_group,
+        ensure  => $apache::manage_file,
+        path    => "${apache::ssl::dotconf_dir}/ssl.conf",
+        mode    => $apache::config_file_mode,
+        owner   => $apache::config_file_owner,
+        group   => $apache::config_file_group,
         require => Package['mod_ssl'],
-        notify => $apache::manage_service_autorestart,
-        source => $apache::ssl::manage_ssl_file_source,
+        notify  => $apache::manage_service_autorestart,
+        source  => $apache::ssl::manage_ssl_file_source,
         content => $apache::ssl::manage_ssl_file_content,
         replace => $apache::manage_file_replace,
-        audit => $apache::manage_audit,
+        audit   => $apache::manage_audit,
       }
       file {['/var/cache/mod_ssl', '/var/cache/mod_ssl/scache']:
         ensure  => directory,
