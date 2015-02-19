@@ -32,6 +32,14 @@ For detailed info about the logic and usage patterns of Example42 modules read R
 
         include apache::ssl
 
+	class { 'apache::ssl':
+	  ssl_template => 'example42/apache/ssl.conf.erb',
+	}
+
+	class { 'apache::ssl':
+	  ssl_source => [ "puppet:///modules/lab42/apache/ssl.conf-${hostname}" , "puppet:///modules/lab42/apache/ssl.conf" ],
+	}
+
 
 * Manage basic auth users (Here user joe is created with the $crypt_password on the defined htpasswd_file
 
