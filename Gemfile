@@ -10,7 +10,7 @@ end
 gem 'puppet', puppetversion, :require => false
 gem 'puppet-lint'
 gem 'puppetlabs_spec_helper', '>= 0.1.0'
-gem 'rspec-puppet', '~> 1.0.1'
+gem 'rspec-puppet'
 
 group :development do
   gem 'puppet-blacksmith'
