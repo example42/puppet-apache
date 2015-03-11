@@ -256,7 +256,14 @@ class apache (
   $port                      = params_lookup( 'port' ),
   $ssl_port                  = params_lookup( 'ssl_port' ),
   $protocol                  = params_lookup( 'protocol' ),
-  $version                   = params_lookup( 'version' )
+  $version                   = params_lookup( 'version' ),
+  ## Hiera lookup
+  $dotconf_hash              = hiera_hash('apache::dotconf_hash', {} ),
+  $htpasswd_hash             = hiera_hash('apache::htpasswd_hash', {} ),
+  $listen_hash               = hiera_hash('apache::listen_hash', {} ),
+  $module_hash               = hiera_hash('apache::module_hash', {} ),
+  $vhost_hash                = hiera_hash('apache::vhost_hash', {} ),
+  $virtualhost_hash          = hiera_hash('apache::virtualhost_hash', {} ),
   ) inherits apache::params {
 
   $bool_source_dir_purge=any2bool($source_dir_purge)
@@ -269,6 +276,32 @@ class apache (
   $bool_firewall=any2bool($firewall)
   $bool_debug=any2bool($debug)
   $bool_audit_only=any2bool($audit_only)
+
+  ## Integration with Hiera
+  if $dotconf_hash != {} {
+    validate_hash($dotconf_hash)
+    create_resources('apache::dotconf', $dotconf_hash)
+  }
+  if $htpasswd_hash != {} {
+    validate_hash($htpasswd_hash)
+    create_resources('apache::htpasswd', $htpasswd_hash)
+  }
+  if $listen_hash != {} {
+    validate_hash($listen_hash)
+    create_resources('apache::listen', $listen_hash)
+  }
+  if $module_hash != {} {
+    validate_hash($module_hash)
+    create_resources('apache::module', $module_hash)
+  }
+  if $vhost_hash != {} {
+    validate_hash($vhost_hash)
+    create_resources('apache::vhost', $vhost_hash)
+  }
+  if $virtualhost_hash != {} {
+    validate_hash($virtualhost_hash)
+    create_resources('apache::virtualhost', $virtualhost_hash)
+  }
 
   ### Calculation of variables that dependes on arguments
   $vdir = $::operatingsystem ? {
@@ -475,5 +508,4 @@ class apache (
       content => inline_template('<%= scope.to_hash.reject { |k,v| k.to_s =~ /(uptime.*|path|timestamp|free|.*password.*|.*psk.*|.*key)/ }.to_yaml %>'),
     }
   }
-
 }
