@@ -125,10 +125,10 @@ define apache::module (
       }
       'absent': {
         exec { "/usr/sbin/a2dismod ${name}":
-          onlyif    => "/bin/sh -c '[ -L ${apache::config_dir}/mods-enabled/${name}.load ] && [ ${apache::config_dir}/mods-enabled/${name}.load -ef ${apache::config_dir}/mods-available/${name}.load ]'",
-          notify    => $manage_service_autorestart,
-          require   => Package['apache'],
-          before    => $exec_a2dismode_before,
+          onlyif  => "/bin/sh -c '[ -L ${apache::config_dir}/mods-enabled/${name}.load ] && [ ${apache::config_dir}/mods-enabled/${name}.load -ef ${apache::config_dir}/mods-available/${name}.load ]'",
+          notify  => $manage_service_autorestart,
+          require => Package['apache'],
+          before  => $exec_a2dismode_before,
         }
       }
       default: {

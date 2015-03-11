@@ -366,12 +366,12 @@ class apache (
   }
 
   service { 'apache':
-    ensure     => $apache::manage_service_ensure,
-    name       => $apache::service,
-    enable     => $apache::manage_service_enable,
-    hasstatus  => $apache::service_status,
-    pattern    => $apache::process,
-    require    => $service_requires,
+    ensure    => $apache::manage_service_ensure,
+    name      => $apache::service,
+    enable    => $apache::manage_service_enable,
+    hasstatus => $apache::service_status,
+    pattern   => $apache::process,
+    require   => $service_requires,
   }
 
   file { 'apache.conf':
@@ -406,8 +406,8 @@ class apache (
 
   if $apache::config_file_default_purge {
     apache::vhost { 'default':
-      enable    => false,
-      priority  => '',
+      enable   => false,
+      priority => '',
     }
   }
 
