@@ -167,6 +167,36 @@ For detailed info about the logic and usage patterns of Example42 modules read R
           my_class => 'apache::example42',
         }
 
+## USAGE - Hiera Support
+* Manage apache configuration using Hiera
+
+```yaml
+apache_template: 'modules/apache/apache2.conf.erb'
+apache_options:
+  timeout: '300'
+  keepalive: 'On'
+  maxkeepaliverequests: '100'
+  keepalivetimeout: '5'
+```
+
+* Defining Apache resources using Hiera
+
+```yaml
+apache::virtualhost_hash:
+  'mysite.com':
+    documentroot: '/var/www/mysite.com'
+    aliases: 'www.mysite.com'
+apache::htpasswd_hash:
+  'myuser':
+    crypt_password: 'password1'
+    htpasswd_file: '/etc/apache2/users.passwd'
+apache::listen_hash:
+  '8080':
+    namevirtualhost: '*'
+apache::module_hash:
+  'status':
+    ensure: present
+```
 
 ## USAGE - Example42 extensions management 
 * Activate puppi (recommended, but disabled by default)

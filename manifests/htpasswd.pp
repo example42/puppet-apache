@@ -59,7 +59,7 @@ define apache::htpasswd (
   $crypt_password   = false,
   $clear_password   = false ) {
 
-  require apache
+  include apache
 
   $real_htpasswd_file = $htpasswd_file ? {
     ''      => "${apache::params::config_dir}/htpasswd",
