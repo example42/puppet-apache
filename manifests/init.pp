@@ -258,12 +258,12 @@ class apache (
   $protocol                  = params_lookup( 'protocol' ),
   $version                   = params_lookup( 'version' ),
   ## Hiera lookup
-  $dotconf_hash              = hiera_hash('apache::dotconf_hash', {} ),
-  $htpasswd_hash             = hiera_hash('apache::htpasswd_hash', {} ),
-  $listen_hash               = hiera_hash('apache::listen_hash', {} ),
-  $module_hash               = hiera_hash('apache::module_hash', {} ),
-  $vhost_hash                = hiera_hash('apache::vhost_hash', {} ),
-  $virtualhost_hash          = hiera_hash('apache::virtualhost_hash', {} ),
+  $dotconf_hash              = {},
+  $htpasswd_hash             = {},
+  $listen_hash               = {},
+  $module_hash               = {},
+  $vhost_hash                = {},
+  $virtualhost_hash          = {},
   ) inherits apache::params {
 
   $bool_source_dir_purge=any2bool($source_dir_purge)
