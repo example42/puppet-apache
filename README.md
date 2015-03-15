@@ -171,8 +171,8 @@ For detailed info about the logic and usage patterns of Example42 modules read R
 * Manage apache configuration using Hiera
 
 ```yaml
-apache_template: 'modules/apache/apache2.conf.erb'
-apache_options:
+apache::template: 'modules/apache/apache2.conf.erb'
+apache::options:
   timeout: '300'
   keepalive: 'On'
   maxkeepaliverequests: '100'

@@ -148,5 +148,11 @@ class apache::params {
   $puppi_helper = 'standard'
   $debug = false
   $audit_only = false
+  $dotconf_hash = {}
+  $htpasswd_hash = {}
+  $listen_hash = {}
+  $module_hash = {}
+  $vhost_hash = {}
+  $virtualhost_hash = {}
 
 }

@@ -257,13 +257,12 @@ class apache (
   $ssl_port                  = params_lookup( 'ssl_port' ),
   $protocol                  = params_lookup( 'protocol' ),
   $version                   = params_lookup( 'version' ),
-  ## Hiera lookup
-  $dotconf_hash              = {},
-  $htpasswd_hash             = {},
-  $listen_hash               = {},
-  $module_hash               = {},
-  $vhost_hash                = {},
-  $virtualhost_hash          = {},
+  $dotconf_hash              = params_lookup( 'dotconf_hash'),
+  $htpasswd_hash             = params_lookup( 'htpasswd_hash'),
+  $listen_hash               = params_lookup( 'listen_hash'),
+  $module_hash               = params_lookup( 'module_hash'),
+  $vhost_hash                = params_lookup( 'vhost_hash'),
+  $virtualhost_hash          = params_lookup( 'virtualhost_hash'),
   ) inherits apache::params {
 
   $bool_source_dir_purge=any2bool($source_dir_purge)
