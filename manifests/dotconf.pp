@@ -65,12 +65,29 @@ define apache::dotconf (
     audit   => $apache::manage_audit,
   }
 
-  # Some OS specific settings:
+    # Some OS specific settings:
   # Ubuntu 14 uses conf-available / conf-enabled folders
   case $::operatingsystem {
     /(?i:Ubuntu)/ : {
       case $::lsbmajdistrelease {
         /14/ : {
+          $dotconf_link_ensure = $enable ? {
+            true  => $dotconf_path,
+            false => absent,
+          }
+
+          file { "ApacheDotconfEnabled_${name}":
+            ensure  => $dotconf_link_ensure,
+            path    => $dotconf_enable_path,
+            require => Package['apache'],
+          }
+        }
+        default: { }
+      }
+    }
+    /(?i:Debian)/ : {
+      case $::lsbmajdistrelease {
+        /8/ : {
           $dotconf_link_ensure = $enable ? {
             true  => $dotconf_path,
             false => absent,
