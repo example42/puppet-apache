@@ -65,7 +65,7 @@ define apache::dotconf (
     audit   => $apache::manage_audit,
   }
 
-    # Some OS specific settings:
+  # Some OS specific settings:
   # Ubuntu 14 uses conf-available / conf-enabled folders
   case $::operatingsystem {
     /(?i:Ubuntu)/ : {
