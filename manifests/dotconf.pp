@@ -85,6 +85,23 @@ define apache::dotconf (
         default: { }
       }
     }
+    /(?i:Debian)/ : {
+      case $::lsbmajdistrelease {
+        /8/ : {
+          $dotconf_link_ensure = $enable ? {
+            true  => $dotconf_path,
+            false => absent,
+          }
+
+          file { "ApacheDotconfEnabled_${name}":
+            ensure  => $dotconf_link_ensure,
+            path    => $dotconf_enable_path,
+            require => Package['apache'],
+          }
+        }
+        default: { }
+      }
+    }
     default: { }
   }
 }

@@ -309,14 +309,31 @@ class apache (
     default                   => "${apache::config_dir}/conf.d",
   }
 
-  $dotconf_dir = $::operatingsystem ? {
-    /(?i:Ubuntu)/ => $::lsbmajdistrelease ? {
-      /14/    => "${apache::config_dir}/conf-available",
-      default => "${apache::config_dir}/conf.d",
-    },
-    default => "${apache::config_dir}/conf.d",
+ case $::operatingsystem {
+    /(?i:Ubuntu)/ : {
+      case $::lsbmajdistrelease {
+        /14/ : {
+          $dotconf_dir = "${apache::config_dir}/conf-available"
+        }
+        default: {
+          $dotconf_dir = "${apache::config_dir}/conf.d"
+        }
+      }
+    }
+    /(?i:Debian)/ : {
+      case $::lsbmajdistrelease {
+        /8/ : {
+          $dotconf_dir = "${apache::config_dir}/conf-available"
+        }
+        default: {
+          $dotconf_dir = "${apache::config_dir}/conf.d"
+        }
+      }
+    }
+    default: {
+      $dotconf_dir = "${apache::config_dir}/conf.d"
+    }
   }
-
 
   ### Definition of some variables used in the module
   $manage_package = $apache::bool_absent ? {
