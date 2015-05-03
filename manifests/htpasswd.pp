@@ -86,7 +86,7 @@ define apache::htpasswd (
 
       if $clear_password {
         exec { "test -f ${real_htpasswd_file} || OPT='-c'; htpasswd -bp \$OPT ${real_htpasswd_file} ${username} '${clear_password}'":
-          unless => "egrep '^${username}:' ${real_htpasswd_file} && grep ${username}:\$(mkpasswd -S \$(egrep '^${username}:' ${real_htpasswd_file} |cut -d : -f 2 |cut -c-2) ${clear_password}) ${real_htpasswd_file}",
+          unless => "egrep '^${username}:' ${real_htpasswd_file} && grep ${username}:\$(mkpasswd -S \$(egrep '^${username}:' ${real_htpasswd_file} |cut -d : -f 2 |cut -c-2) '${clear_password}') ${real_htpasswd_file}",
           path   => '/bin:/sbin:/usr/bin:/usr/sbin',
         }
       }
