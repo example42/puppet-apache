@@ -29,11 +29,10 @@ define apache::listen (
 
   include apache
 
-  apache::dotconf { "listen_${name}":
-    ensure   => $ensure,
-    enable   => $enable,
-    content  => template($template),
-    priority => '0000',
+  apache::dotconf { "0000_listen_${name}":
+    ensure  => $ensure,
+    enable  => $enable,
+    content => template($template),
   }
 
 }
