@@ -309,7 +309,7 @@ class apache (
     default                   => "${apache::config_dir}/conf.d",
   }
 
- case $::operatingsystem {
+  case $::operatingsystem {
     /(?i:Ubuntu)/ : {
       case $::lsbmajdistrelease {
         /14/ : {

@@ -9,3 +9,4 @@ spec/fixtures
 *.un~
 /Gemfile.lock
 /.bundle
+vendor
