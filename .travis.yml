@@ -37,6 +37,7 @@ matrix:
       env: PUPPET_VERSION="~> 3.2.0"
     - rvm: 2.1.1
       env: PUPPET_VERSION="~> 3.3.0"
+sudo: false
 notifications:
   email:
     - al@lab42.it
