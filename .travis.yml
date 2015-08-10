@@ -16,8 +16,11 @@ env:
   - PUPPET_VERSION="~> 3.5.0"
   - PUPPET_VERSION="~> 3.6.0"
   - PUPPET_VERSION="~> 3.7.0"
+  - PUPPET_VERSION="~> 4.2"
 matrix:
   exclude:
+    - rvm: 1.8.7
+      env: PUPPET_VERSION="~> 4.2"
     # this fails on "Could not autoload package: constant Puppet::Type::Package"
     # See https://travis-ci.org/DavidS/puppet-apache/jobs/39843058
     - rvm: 2.0.0
