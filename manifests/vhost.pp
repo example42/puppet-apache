@@ -98,6 +98,10 @@
 #   Set one or more Alias directives (e.g '/phpmyadmin /usr/share/phpMyAdmin'
 #   or ['/alias1 /path/to/alias', '/alias2 /path/to/secondalias'])
 #
+# [*proxy_aliases*]
+#   Set one or more proxy and reverse proxy directives. (e.g. '/manager http://localhost:8080/manager'
+#   or ['/manager http://localhost:8080/manager', '/alias3 http://remote.server.com/alias'])
+#
 # == Examples:
 #  apache::vhost { 'site.name.fqdn':
 #    docroot  => '/path/to/docroot',
@@ -151,7 +155,8 @@ define apache::vhost (
   $directory_options            = '',
   $directory_allow_override     = 'None',
   $directory_require            = '',
-  $aliases                      = ''
+  $aliases                      = '',
+  $proxy_aliases                = ''
 ) {
 
   $ensure = $enable ? {
