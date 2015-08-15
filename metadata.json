@@ -1,6 +1,6 @@
 {
   "name": "example42-apache",
-  "version": "2.1.9",
+  "version": "2.1.10",
   "summary": "Puppet module for apache",
   "license": "Apache-2.0",
   "author": "Alessandro Franceschi, Martin Alfke",
