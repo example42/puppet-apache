@@ -1,6 +1,6 @@
 {
   "name": "example42-apache",
-  "version": "2.1.10",
+  "version": "2.1.9",
   "summary": "Puppet module for apache",
   "license": "Apache-2.0",
   "author": "Alessandro Franceschi, Martin Alfke",
@@ -38,11 +38,11 @@
   "requirements": [
     {
       "name": "pe",
-      "version_requirement": ">= 3.0.0, < 5.0.0"
+      "version_requirement": ">= 3.0.0 < 5.0.0"
     },
     {
       "name": "puppet",
-      "version_requirement": ">= 3.0.0, < 5.0.0"
+      "version_requirement": ">= 3.0.0 < 5.0.0"
     }
   ],
   "dependencies": [
