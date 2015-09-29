@@ -438,7 +438,7 @@ class apache (
   }
 
   # The whole apache configuration directory can be recursively overriden
-  if $apache::source_dir {
+  if $apache::source_dir and $apache::source_dir != '' {
     file { 'apache.dir':
       ensure  => directory,
       path    => $apache::config_dir,
@@ -461,7 +461,7 @@ class apache (
   }
 
   ### Include custom class if $my_class is set
-  if $apache::my_class {
+  if $apache::my_class and $apache::my_class != '' {
     include $apache::my_class
   }
 
