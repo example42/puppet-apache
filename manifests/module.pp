@@ -64,6 +64,7 @@ define apache::module (
     $modpackage_basename = $::operatingsystem ? {
       /(?i:Ubuntu|Debian|Mint)/ => 'libapache2-mod-',
       /(?i:SLES|OpenSuSE)/      => 'apache2-mod_',
+      /(?i:Solaris)/            => 'apache-',
       default                   => 'mod_',
     }
 

@@ -51,6 +51,26 @@ describe 'apache::virtualhost' do
 
   end
 
+  describe 'Test apache::virtualhost on solaris' do
+  let(:facts) { { :arch => 'i386' , :operatingsystem => 'Solaris', :operatingsystemmajrelease => '11' } }
+  let(:params) {
+    { 'enable'       =>  'true',
+      'name'         =>  'www.example42.com',
+    }
+  }
+
+    it 'should populate correctly the apache::virtualhost file DocumentRoot' do
+      should contain_file('ApacheVirtualHost_www.example42.com').with_content(/    DocumentRoot \/var\/apache2\/2.4\/htdocs\/www.example42.com/)
+    end
+    it 'should populate correctly the apache::virtualhost file ErrorLog' do
+      should contain_file('ApacheVirtualHost_www.example42.com').with_content(/    ErrorLog  \/var\/apache2\/2.4\/logs\/www.example42.com-error_log/)
+    end
+    it 'should create the docroot directory' do
+      should contain_file('/var/apache2/2.4/htdocs/www.example42.com').with_ensure("directory")
+    end
+
+  end
+
   describe 'Test apache::virtualhost decommissioning' do
   let(:params) {
     { 'enable'       => 'false',
