@@ -9,6 +9,7 @@
     mods-enabled_dir_path: '/etc/apache2/mods-enabled'
     sites-available_dir_path: '/etc/apache2/sites-available'
     sites-enabled_dir_path: '/etc/apache2/sites-enabled'
+    vhost_dir_path: '/etc/apache2/sites-available'
     conf_dir_path: '/etc/apache2/conf.d'
     pid_file_path: '/var/run/apache2.pid'
     log_file_path: [ '/var/log/apache2/access.log' , '/var/log/apache2/error.log' ]

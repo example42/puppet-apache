@@ -14,3 +14,7 @@
     process_user: 'wwwrun'
     process_group: 'wwwrun'
 
+  apache::options::config:
+
+  apache::options::config:
+    apache_version: 2.2
