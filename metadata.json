@@ -1,9 +1,9 @@
 {
   "name": "example42-apache",
-  "version": "2.1.12",
-  "summary": "Puppet module for apache",
+  "version": "4.0.0.alpha1",
+  "summary": "Puppet module for apache. Based on Tiny Puppet ",
   "license": "Apache-2.0",
-  "author": "Alessandro Franceschi, Martin Alfke",
+  "author": "Alessandro Franceschi, Martin Alfke @ example42",
   "checksums": {
   },
   "source": "https://github.com/example42/puppet-apache",
@@ -51,24 +51,8 @@
       "version_requirement": ">= 3.2.0 < 5.0.0"
     },
     {
-      "name": "example42/puppi",
-      "version_requirement": ">= 2.0.0"
-    },
-    {
-      "name": "example42/monitor",
-      "version_requirement": ">= 2.0.0"
-    },
-    {
-      "name": "example42/iptables",
-      "version_requirement": ">= 2.0.0"
-    },
-    {
-      "name": "example42/firewall",
-      "version_requirement": ">= 2.0.0"
-    },
-    {
-      "name": "puppetlabs/concat",
-      "version_requirement": ">= 1.0.0"
+      "name": "example42/tp",
+      "version_requirement": ">= 1.0.0 < 3.0.0"
     }
   ]
 }
