@@ -14,9 +14,12 @@ class apache (
 
 ) {
 
+  $tp_settings = tp_lookup('apache','settings',$data_module,'merge')
+  $module_settings = $tp_settings + $settings
+
   tp::install { 'apache':
     options_hash  => $options,
-    settings_hash => $settings, 
+    settings_hash => $module_settings, 
     data_module   => $data_module,  
     conf_hash     => $confs,
     dir_hash      => $dirs,

@@ -7,8 +7,10 @@ define apache::dotconf (
   Variant[Undef,String]   $content             = undef,
 
   Hash                    $options          = { },
-  Hash                    $settings         = { },
+
 ) {
+
+  include ::apache
 
   tp::conf { "apache::${title}":
     base_dir     => 'conf',
@@ -16,8 +18,9 @@ define apache::dotconf (
     epp          => $epp,
     content      => $content,
     source       => $source,
-    options_hash => $options + $::apache::options,
-    data_module  => pick_default($::apache::data_module, 'apache'),
+    options_hash => $::apache::options + $options,
+    data_module  => $::apache::data_module,
+    settings     => $::apache::module_settings,
   }
 
 }

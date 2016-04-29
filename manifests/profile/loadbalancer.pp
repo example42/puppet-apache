@@ -3,11 +3,14 @@ class apache::profile::loadbalancer (
   String[1]               $template         = 'apache/profile/loadbalancer/loadbalancer.conf.erb',
 ) {
 
+  include apache
+
   tp::conf { 'apache::loadbalancer.conf':
-    base_dir     => 'conf',
-    template     => $template,
-    options_hash => $options + $::apache::options,
-    data_module  => pick_default($::apache::data_module, 'apache'),
+    base_dir      => 'conf',
+    template      => $template,
+    options_hash  => $::apache::options + $options,
+    data_module   => $::apache::data_module,
+    settings_hash => $::apache::module_settings,
   }
 
 }
