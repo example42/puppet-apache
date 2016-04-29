@@ -1,5 +1,8 @@
+---
+sudo: false
 language: ruby
-bundler_args: --without development
+bundler_args: --without development system_tests
+before_install: rm Gemfile.lock || true
 rvm:
   - 1.8.7
   - 1.9.3
@@ -10,13 +13,12 @@ script:
   - "bundle exec rake validate lint spec SPEC_OPTS='--format documentation'"
 env:
   - PUPPET_VERSION="~> 2.7.0"
-  - PUPPET_VERSION="~> 3.1.0"
   - PUPPET_VERSION="~> 3.2.0"
   - PUPPET_VERSION="~> 3.3.0"
   - PUPPET_VERSION="~> 3.4.0"
   - PUPPET_VERSION="~> 3.5.0"
   - PUPPET_VERSION="~> 3.6.0"
-  - PUPPET_VERSION="~> 3.7.0"
+  - PUPPET_VERSION="~> 3.7.0" STRICT_VARIABLES=yes
   - PUPPET_VERSION="~> 4.2"
 matrix:
   exclude:
@@ -49,4 +51,4 @@ matrix:
 sudo: false
 notifications:
   email:
-    - al@lab42.it
+    - info@example42.com
