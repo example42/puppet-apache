@@ -15,6 +15,7 @@
     process_user: 'apache'
     process_group: 'apache'
     modpackage_prefix: 'mod_'
+    passenger_package_name: 'mod_passenger'
 
   apache::options::init:
 

@@ -18,4 +18,5 @@
     process_name: 'apache2'
     process_user: 'www-data'
     process_group: 'www-data'
+    passenger_package_name: 'libapache2-mod-passenger'
     modpackage_prefix: 'libapache2-mod-'
