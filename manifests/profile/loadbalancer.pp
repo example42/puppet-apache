@@ -6,7 +6,8 @@ class apache::profile::loadbalancer (
   tp::conf { 'apache::loadbalancer.conf':
     base_dir     => 'conf',
     template     => $template,
-    options_hash => pick_default($options,$::apache::options, { ),
+    options_hash => $options + $::apache::options,
     data_module  => pick_default($::apache::data_module, 'apache'),
   }
+
 }
