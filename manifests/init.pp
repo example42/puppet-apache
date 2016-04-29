@@ -12,6 +12,9 @@ class apache (
 
   String[1]               $data_module      = 'apache',
 
+  Boolean                 $service_autorestart = true,
+  Boolean                 $auto_conf        = false,
+
 ) {
 
   $tp_settings = tp_lookup('apache','settings',$data_module,'merge')
@@ -23,6 +26,7 @@ class apache (
     data_module   => $data_module,  
     conf_hash     => $confs,
     dir_hash      => $dirs,
+    auto_conf     => $auto_conf,
   }
 
   if $profiles != [] {

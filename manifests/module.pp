@@ -12,11 +12,12 @@ define apache::module (
 
   if $template {
     tp::conf { "apache::module::${title}":
-      base_dir     => 'mod',
-      template     => $template,
-      options_hash => $options + $::apache::options,
-      data_module  => $::apache::data_module,
-      settings     => $::apache::module_settings,
+      base_dir           => 'mod',
+      template           => $template,
+      options_hash       => $::apache::options + $options,
+      data_module        => $::apache::data_module,
+      settings           => $::apache::module_settings,
+      config_file_notify => $::apache::service_autorestart,
     }
   }
 

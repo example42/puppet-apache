@@ -13,14 +13,15 @@ define apache::dotconf (
   include ::apache
 
   tp::conf { "apache::${title}":
-    base_dir     => 'conf',
-    template     => $template,
-    epp          => $epp,
-    content      => $content,
-    source       => $source,
-    options_hash => $::apache::options + $options,
-    data_module  => $::apache::data_module,
-    settings     => $::apache::module_settings,
+    base_dir           => 'conf',
+    template           => $template,
+    epp                => $epp,
+    content            => $content,
+    source             => $source,
+    options_hash       => $::apache::options + $options,
+    data_module        => $::apache::data_module,
+    settings           => $::apache::module_settings,
+    config_file_notify => $::apache::service_autorestart,
   }
 
 }

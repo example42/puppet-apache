@@ -7,11 +7,12 @@ class apache::profile::passenger (
   include apache
 
   tp::conf { 'apache::passenger':
-    base_dir      => 'conf',
-    template      => $template,
-    options_hash  => $::apache::options + $options,
-    data_module   => $::apache::data_module,
-    settings_hash => $::apache::module_settings,
+    base_dir           => 'conf',
+    template           => $template,
+    options_hash       => $::apache::options + $options,
+    data_module        => $::apache::data_module,
+    settings_hash      => $::apache::module_settings,
+    config_file_notify => $::apache::service_autorestart,
   }
 
   package { $::apache::module_settings['passenger_package_name']:

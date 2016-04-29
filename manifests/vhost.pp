@@ -9,11 +9,12 @@ define apache::vhost (
   include ::apache
 
   tp::conf { "apache::${title}":
-    base_dir     => 'vhost',
-    template     => $template,
-    options_hash => $::apache::options + $options,
-    data_module  => $::apache::data_module,
-    settings     => $::apache::module_settings,
+    base_dir           => 'vhost',
+    template           => $template,
+    options_hash       => $::apache::options + $options,
+    data_module        => $::apache::data_module,
+    settings           => $::apache::module_settings,
+    config_file_notify => $::apache::service_autorestart,
   }
 
 }
