@@ -14,6 +14,7 @@
     process_name: 'httpd'
     process_user: 'apache'
     process_group: 'apache'
+    modpackage_prefix: 'mod_'
 
   apache::options::init:
 

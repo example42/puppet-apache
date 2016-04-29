@@ -13,6 +13,7 @@
     process_name: 'httpd2-prefork'
     process_user: 'wwwrun'
     process_group: 'wwwrun'
+    modpackage_prefix: 'apache2-mod_'
 
   apache::options::config:
 
