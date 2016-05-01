@@ -19,6 +19,11 @@ class apache (
 
   $tp_settings = tp_lookup('apache','settings',$data_module,'merge')
   $module_settings = $tp_settings + $settings
+  if $module_settings['service_name'] and $service_autorestart {
+    $service_notify = "Service[${module_settings['service_name']}]"
+  } else {
+    $service_notify = undef
+  }
 
   tp::install { 'apache':
     options_hash  => $options,
@@ -31,7 +36,7 @@ class apache (
 
   if $profiles != [] {
     $profiles.each |$kl| {
-      include $kl
+      include "::apache::profile::${kl}"
     }
   }
 

@@ -1,18 +1,20 @@
 class apache::profile::passenger (
-  Variant[Boolean,String] $ensure           = present,
-  Hash                    $options          = { },
-  String[1]               $template         = 'apache/profile/passenger/passenger.conf.erb',
+  Variant[Boolean,String]  $ensure           = present,
+  Hash                     $options          = { },
+  Variant[Undef,String[1]] $template         = undef,
 ) {
 
   include apache
 
-  tp::conf { 'apache::passenger':
-    base_dir           => 'conf',
-    template           => $template,
-    options_hash       => $::apache::options + $options,
-    data_module        => $::apache::data_module,
-    settings_hash      => $::apache::module_settings,
-    config_file_notify => $::apache::service_autorestart,
+  if $template {
+    tp::conf { 'apache::passenger':
+      base_dir           => 'conf',
+      template           => $template,
+      options_hash       => $::apache::options + $options,
+      data_module        => $::apache::data_module,
+      settings_hash      => $::apache::module_settings,
+      config_file_notify => $::apache::service_autorestart,
+    }
   }
 
   package { $::apache::module_settings['passenger_package_name']:
