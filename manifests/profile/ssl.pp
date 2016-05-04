@@ -4,9 +4,10 @@ class apache::profile::ssl (
   Variant[Undef,String[1]] $template         = undef,
 ) {
 
-  include apache
+  include ::apache
 
   apache::module { 'ssl':
+    ensure          => $ensure,
     template        => $template,
     options         => $::apache::options + $options,
     package_install => true,
