@@ -16,6 +16,21 @@ class apache::ssl {
       }
     }
 
+    solaris: {
+      if $::operatingsystemmajrelease == '11' {
+        package { 'apache-ssl':
+          ensure  => present,
+          require => Package['apache'],
+          notify  => Service['apache'],
+        }
+        file { "${apache::dotconf_dir}/ssl.conf":
+          mode   => '0644',
+          owner  => 'root',
+          group  => 'root',
+          notify => Service['apache'],
+        }
+      }
+    }
     default: {
       package { 'mod_ssl':
         ensure  => present,
