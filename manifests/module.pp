@@ -17,14 +17,14 @@ define apache::module (
       template           => $template,
       options_hash       => $::apache::options + $options,
       data_module        => $::apache::data_module,
-      settings           => $::apache::module_settings,
+      settings           => $::apache::real_settings,
       config_file_notify => $::apache::service_notify,
     }
   }
 
   if $package_install {
     $real_package_name = $package_install ? {
-      true    => "${::apache::module_settings['modpackage_prefix']}${name}",
+      true    => "${::apache::real_settings['modpackage_prefix']}${name}",
       default => $package_install,
     }
 
@@ -50,14 +50,14 @@ define apache::module (
         exec { "/usr/sbin/a2enmod ${name}":
           unless    => "/bin/sh -c '[ -L ${::apache::settings['config_dir_path']}/mods-enabled/${name}.load ] && [ ${::apache::settings['config_dir_path']}/mods-enabled/${name}.load -ef ${::apache::settings['config_dir_path']}/mods-available/${name}.load ]'",
           notify    => $::apache::service_notify,
-          require   => Package[$::apache::module_settings['package_name']],
+          require   => Package[$::apache::real_settings['package_name']],
         }
       }
       'absent': {
         exec { "/usr/sbin/a2dismod ${name}":
           onlyif    => "/bin/sh -c '[ -L ${::apache::settings['config_dir_path']}/mods-enabled/${name}.load ] && [ ${::apache::settings['config_dir_path']}/mods-enabled/${name}.load -ef ${::apache::settings['config_dir_path']}/mods-available/${name}.load ]'",
           notify    => $::apache::service_notify,
-          require   => Package[$::apache::module_settings['package_name']],
+          require   => Package[$::apache::real_settings['package_name']],
           before    => $exec_a2dismode_before,
         }
       }

@@ -17,9 +17,9 @@ class apache (
 ) {
 
   $tp_settings = tp_lookup('apache','settings',$data_module,'merge')
-  $module_settings = $tp_settings + $settings
-  if $module_settings['service_name'] and $auto_restart {
-    $service_notify = "Service[${module_settings['service_name']}]"
+  $real_settings = $tp_settings + $settings
+  if $real_settings['service_name'] and $auto_restart {
+    $service_notify = "Service[${real_settings['service_name']}]"
   } else {
     $service_notify = undef
   }

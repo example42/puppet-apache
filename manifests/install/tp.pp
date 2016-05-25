@@ -10,7 +10,7 @@ class apache::install::tp (
   
   tp::install { 'apache':
     options_hash  => $::apache::options,
-    settings_hash => $::apache::module_settings,
+    settings_hash => $::apache::real_settings,
     data_module   => $::apache::data_module,
     conf_hash     => $confs,
     dir_hash      => $dirs,

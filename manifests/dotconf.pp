@@ -21,7 +21,7 @@ define apache::dotconf (
     source             => $source,
     options_hash       => $::apache::options + $options,
     data_module        => $::apache::data_module,
-    settings           => $::apache::module_settings,
+    settings           => $::apache::real_settings,
     config_file_notify => $::apache::service_notify,
   }
 

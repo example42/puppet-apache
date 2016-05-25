@@ -10,7 +10,7 @@ class apache::profile::loadbalancer (
     template      => $template,
     options_hash  => $::apache::options + $options,
     data_module   => $::apache::data_module,
-    settings_hash => $::apache::module_settings,
+    settings_hash => $::apache::real_settings,
   }
 
 }
