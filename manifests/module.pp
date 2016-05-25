@@ -1,5 +1,5 @@
 define apache::module (
-  Variant[Boolean,String]    $ensure           = present,
+  Variant[Boolean,String]    $ensure           = '',
 
   Variant[Undef,String]      $template         = undef,
   Hash                       $options          = { },
@@ -12,12 +12,13 @@ define apache::module (
 
   if $template {
     tp::conf { "apache::module::${title}":
+      ensure             => $ensure,
       base_dir           => 'mod',
       template           => $template,
       options_hash       => $::apache::options + $options,
       data_module        => $::apache::data_module,
       settings           => $::apache::module_settings,
-      config_file_notify => $::apache::service_autorestart,
+      config_file_notify => $::apache::service_notify,
     }
   }
 
@@ -28,8 +29,8 @@ define apache::module (
     }
 
     package { $real_package_name:
-      ensure  => $ensure,
-      notify  => $::apache::service_notify,
+      ensure => $ensure,
+      notify => $::apache::service_notify,
     }
   }
 
@@ -64,7 +65,5 @@ define apache::module (
       }
     }
   }
-
-
 
 }

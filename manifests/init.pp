@@ -1,9 +1,7 @@
 class apache (
 
   Variant[Boolean,String] $ensure           = present,
-
-  Hash                    $confs            = { },
-  Hash                    $dirs             = { },
+  String                  $install_class    = '::apache::install::tp',
 
   Hash                    $options          = { },
   Hash                    $settings         = { },
@@ -12,26 +10,22 @@ class apache (
 
   String[1]               $data_module      = 'apache',
 
-  Boolean                 $service_autorestart = true,
+  Boolean                 $auto_restart     = true,
   Boolean                 $auto_conf        = false,
+  Boolean                 $auto_prerequisites = true,
 
 ) {
 
   $tp_settings = tp_lookup('apache','settings',$data_module,'merge')
   $module_settings = $tp_settings + $settings
-  if $module_settings['service_name'] and $service_autorestart {
+  if $module_settings['service_name'] and $auto_restart {
     $service_notify = "Service[${module_settings['service_name']}]"
   } else {
     $service_notify = undef
   }
 
-  tp::install { 'apache':
-    options_hash  => $options,
-    settings_hash => $module_settings, 
-    data_module   => $data_module,  
-    conf_hash     => $confs,
-    dir_hash      => $dirs,
-    auto_conf     => $auto_conf,
+  if $install_class != '' {
+    include $install_class
   }
 
   if $profiles != [] {
