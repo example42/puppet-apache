@@ -1,0 +1,5 @@
+---
+  apache::settings:
+    package_name: 'apache'
+    service_name: 'apache'
+    conf_dir_path: '/etc/apache'

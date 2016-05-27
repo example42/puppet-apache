@@ -1,0 +1,30 @@
+---
+  apache::settings:
+    package_name: 'httpd'
+    service_name: 'httpd'
+    config_file_path: '/etc/httpd/conf/httpd.conf'
+    config_dir_path: '/etc/httpd'
+    tcp_port: '80'
+    pid_file_path: '/var/run/httpd.pid'
+    log_file_path: [ '/var/log/httpd/access.log' , '/var/log/httpd/error.log' ]
+    log_dir_path: '/var/log/httpd'
+    mod_dir_path: '/var/lib/apache/modules'
+    data_dir_path: '/var/www/html'
+    vhost_dir_path: '/etc/httpd/conf.d'
+    process_name: 'httpd'
+    process_user: 'apache'
+    process_group: 'apache'
+    modpackage_prefix: 'mod_'
+    passenger_package_name: 'mod_passenger'
+
+  apache::options::config:
+    apache_version: 2.4  
+    server_tokens: OS
+    server_signature: On
+    trace_enable: On
+    servername: "%{::fqdn}" # Note: Variables interpolation here still not suppored
+    keepalive: Off
+    keepalive_timeout: 15
+    max_keepalive_requests: 100
+    timeout: 120
+    limitreqfieldsize: 8190

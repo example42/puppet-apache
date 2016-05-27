@@ -1,74 +1,62 @@
 {
   "name": "example42-apache",
-  "version": "2.1.12",
-  "summary": "Puppet module for apache",
+  "version": "4.0.0",
+  "author": "example42",
+  "summary": "Puppet 4 module for Apache",
   "license": "Apache-2.0",
-  "author": "Alessandro Franceschi, Martin Alfke",
-  "checksums": {
-  },
   "source": "https://github.com/example42/puppet-apache",
   "project_page": "https://github.com/example42/puppet-apache",
   "issues_url": "https://github.com/example42/puppet-apache/issues",
+  "dependencies": [
+    {"name":"puppetlabs/stdlib","version_requirement":">= 2.4.0 < 5.0.0"},
+    {"name":"example42/tp","version_requirement":">= 1.1.0 < 3.0.0"}
+  ],
   "operatingsystem_support": [
-    {
-      "operatingsystem": "RedHat",
-      "operatingsystemrelease": [
-        "7"
-      ]
-    },
-    {
-      "operatingsystem": "Centos",
-      "operatingsystemrelease": [
-        "7"
-      ]
-    },
     {
       "operatingsystem": "Debian",
       "operatingsystemrelease": [
-        "7"
+        "7",
+        "8"
       ]
     },
     {
       "operatingsystem": "Ubuntu",
       "operatingsystemrelease": [
-        "14.04"
+        "12.04",
+        "14.04",
+        "16.04"
+      ]
+    },
+    {
+      "operatingsystem": "RedHat",
+      "operatingsystemrelease": [
+        "5",
+        "6",
+        "7"
+      ]
+    },
+    {
+      "operatingsystem": "CentOS",
+      "operatingsystemrelease": [
+        "5",
+        "6",
+        "7"
+      ]
+    },
+    {
+      "operatingsystem": "OracleLinux",
+      "operatingsystemrelease": [
+        "5",
+        "6",
+        "7"
       ]
     }
   ],
   "requirements": [
     {
-      "name": "pe",
-      "version_requirement": ">= 3.0.0 < 5.0.0"
-    },
-    {
       "name": "puppet",
-      "version_requirement": ">= 3.0.0 < 5.0.0"
+      "version_requirement": ">= 4.0.0 < 6.0.0"
     }
   ],
-  "dependencies": [
-    {
-      "name": "puppetlabs/stdlib",
-      "version_requirement": ">= 3.2.0 < 5.0.0"
-    },
-    {
-      "name": "example42/puppi",
-      "version_requirement": ">= 2.0.0"
-    },
-    {
-      "name": "example42/monitor",
-      "version_requirement": ">= 2.0.0"
-    },
-    {
-      "name": "example42/iptables",
-      "version_requirement": ">= 2.0.0"
-    },
-    {
-      "name": "example42/firewall",
-      "version_requirement": ">= 2.0.0"
-    },
-    {
-      "name": "puppetlabs/concat",
-      "version_requirement": ">= 1.0.0"
-    }
-  ]
+  "description": "Puppet 4 module for apache"
 }

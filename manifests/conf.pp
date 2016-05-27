@@ -1,5 +1,7 @@
-define apache::dotconf (
-  Variant[Boolean,String] $ensure   = '',
+# define apache::dotconf
+#
+define apache::conf (
+  String                  $ensure   = '',
 
   Variant[Undef,String]   $source   = undef,
   Variant[Undef,String]   $template = undef,
@@ -21,7 +23,7 @@ define apache::dotconf (
     source             => $source,
     options_hash       => $::apache::options + $options,
     data_module        => $::apache::data_module,
-    settings           => $::apache::real_settings,
+    settings_hash      => $::apache::real_settings,
     config_file_notify => $::apache::service_notify,
   }
 

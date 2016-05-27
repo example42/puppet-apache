@@ -1,0 +1,48 @@
+# File Managed by Tiny Puppet
+
+<VirtualHost *:<%= @options['port'] %>
+    ServerAdmin <%= @options['server_admin_email'] %>
+    DocumentRoot <%= @options['real_docroot'] %>
+<% if @options['server_name_value'] != false -%>
+    ServerName <%= @options['server_name_value'] %>
+<% end -%>
+<% if @options['serveraliases'] != "" -%>
+<% if @options['serveraliases'].is_a? Array -%>
+    ServerAlias <%= @options['serveraliases'].flatten.join(" ") %>
+<% else -%>
+    ServerAlias <%= @options['serveraliases'] %>
+<% end -%>
+<% end -%>
+<% if @options['env_variables'] != "" -%>
+<% if env_variables.is_a? Array -%>
+<% env_variables.each do |envvars| -%>
+    SetEnv <%= envvars %>
+<% end -%>
+<% end -%>
+<% end -%>
+
+    ErrorLog  <%= @settings['log_dir_path'] %>/<%= @options['name'] %>-error_log
+    CustomLog <%= @settings['log_dir_path'] %>/<%= @options['name'] %>-access_log common
+
+<% if @options['directory_options'] != "" || @options['directory_allow_override'] != "None" -%>
+    <Directory <%= @options['real_directory'] %>>
+        <% if @options['directory_options'] != "" -%>
+        Options <%= @options['directory_options'] %>
+        <% end -%>
+        <% if @options['directory_allow_override'] != "None" -%>
+        AllowOverride <%= @options['directory_allow_override'] %>
+        <% end -%>
+    </Directory>
+<% end -%>
+
+<% if @options['aliases'] != "" -%>
+<% if @options['aliases'].is_a? Array -%>
+<% aliases.each do |singlealias| %>
+    Alias <%= singlealias %>
+<% end -%>
+<% else -%>
+    Alias <%= @options['aliases'] %>
+<% end -%>
+<% end -%>
+</VirtualHost>
+
