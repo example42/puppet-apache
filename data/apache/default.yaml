@@ -17,8 +17,6 @@
     modpackage_prefix: 'mod_'
     passenger_package_name: 'mod_passenger'
 
-  apache::options::init:
-
   apache::options::config:
     apache_version: 2.4  
     server_tokens: OS

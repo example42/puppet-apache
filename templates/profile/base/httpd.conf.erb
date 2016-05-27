@@ -1,7 +1,7 @@
 # File managed by Tiny Puppet
 # Template derived from puppetlabs-apahe module
 
-ServerTokens <%= @options@['server_tokens'] %>
+ServerTokens <%= @options['server_tokens'] %>
 ServerSignature <%= scope.function_bool2httpd(@options['server_signature']) %>
 TraceEnable <%= scope.function_bool2httpd(@options['trace_enable']) %>
 
@@ -88,17 +88,17 @@ LogFormat "<%= format -%>" <%= nickname %>
   <%- end -%>
 <% end -%>
 
-<%- if scope.function_versioncmp([@options['apache_version'], '2.4']) >= 0 -%>
+<% if scope.function_versioncmp([@options['apache_version'], '2.4']) >= 0 -%>
 IncludeOptional "<%= @settings['conf_dir_path'] %>/*.conf"
-<%- else -%>
+<% else -%>
 Include "<%= @settings['conf_dir_path'] %>/*.conf"
-<%- end -%>
+<% end -%>
 <% if @settings['vhost_dir_path'] != @settings['conf_dir_path'] -%>
-<%- if scope.function_versioncmp([@options['apache_version'], '2.4']) >= 0 -%>
-IncludeOptional "<%= @settings['vhost_dir_path']/<%= @options['vhost_include_pattern'] %>"
-<%- else -%>
+<% if scope.function_versioncmp([@options['apache_version'], '2.4']) >= 0 -%>
+IncludeOptional "<%= @settings['vhost_dir_path'] %>/<%= @options['vhost_include_pattern'] %>"
+<% else -%>
 Include "<%= @settings['vhost_dir_path'] %>/<%= @options['vhost_include_pattern'] %>"
-<%- end -%>
+<% end -%>
 <% end -%>
 
 <% if @options['error_documents'] -%>

@@ -1,7 +1,7 @@
 fixtures:
   repositories:
-    tp: "https://github.com/example42/puppet-tp"
-    stdlib: "https://github.com/puppetlabs/puppetlabs-stdlib"
+    tp: "https://github.com/example42/puppet-tp.git"
+    tinydata: "https://github.com/example42/tinydata.git"
+    stdlib: "https://github.com/puppetlabs/puppetlabs-stdlib.git"
   symlinks:
     apache: "#{source_dir}"
-

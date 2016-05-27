@@ -1,7 +1,7 @@
 # File Managed by Tiny Puppet
 
-<VirtualHost *:<%= @options['port'] %>>
-    ServerAdmin <%= @options['server_admin_email'] ||= 'webmaster@options['localhost' %>
+<VirtualHost *:<%= @options['port'] %>
+    ServerAdmin <%= @options['server_admin_email'] %>
     DocumentRoot <%= @options['real_docroot'] %>
 <% if @options['server_name_value'] != false -%>
     ServerName <%= @options['server_name_value'] %>

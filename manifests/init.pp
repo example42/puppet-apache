@@ -1,18 +1,24 @@
+# Class: apache
+# ===========================
+#
+# This module install and configures apache.
+# This main class just manages a basic installation.
+# For configurations for different use cases check the classes
+# in the profile directory.
+#
 class apache (
 
-  Variant[Boolean,String] $ensure           = present,
-  String                  $install_class    = '::apache::install::tp',
+  String     $ensure        = 'present',
+  String     $install_class = '::apache::install::tp',
 
-  Hash                    $options          = { },
-  Hash                    $settings         = { },
+  Hash       $options       = { },
+  Hash       $settings      = { },
 
-  Array                   $profiles         = [],
+  String[1]  $data_module   = 'apache',
 
-  String[1]               $data_module      = 'apache',
-
-  Boolean                 $auto_restart     = true,
-  Boolean                 $auto_conf        = false,
-  Boolean                 $auto_prerequisites = true,
+  Boolean    $auto_restart  = true,
+  Boolean    $auto_conf     = false,
+  Boolean    $auto_depend   = true,
 
 ) {
 
@@ -26,12 +32,6 @@ class apache (
 
   if $install_class != '' {
     include $install_class
-  }
-
-  if $profiles != [] {
-    $profiles.each |$kl| {
-      include "::apache::profile::${kl}"
-    }
   }
 
 }
