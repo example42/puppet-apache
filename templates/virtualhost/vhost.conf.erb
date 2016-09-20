@@ -6,6 +6,9 @@
 <% if @server_name_value != false -%>
     ServerName <%= @server_name_value %>
 <% end -%>
+<% if @directoryindex != "" -%>
+    DirectoryIndex <%= @directoryindex %>
+<% end -%>
 <% if @serveraliases != "" -%>
 <% if @serveraliases.is_a? Array -%>
     ServerAlias <%= @serveraliases.flatten.join(" ") %>

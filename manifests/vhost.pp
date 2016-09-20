@@ -82,6 +82,9 @@
 # [*passenger_rack_base_uri*]
 #   Set the RackBaseURI directive
 #
+# [*directoryindex*]
+#   Set the DirectoryIndex directive
+#
 # [*directory*]
 #   Set the VHost directory used for the <Directory> directive
 #
@@ -151,6 +154,7 @@ define apache::vhost (
   $passenger_rack_env           = '',
   $passenger_rack_base_uri      = '',
   $enable                       = true,
+  $directoryindex               = '',
   $directory                    = '',
   $directory_options            = '',
   $directory_allow_override     = 'None',
