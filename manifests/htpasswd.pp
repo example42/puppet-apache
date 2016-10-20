@@ -19,25 +19,34 @@
 #   Default: $name
 #
 # [*crypt_password*]
-#   Crypted password (as it appears in htpasswd)
+#   Pre-encrypted password or password to be strored in htpasswd_file as plain-text
 #   Default: false (either crypt_password or clear_password must be set)
 #
 # [*clear_password*]
-#   Clear password (as it appears in htpasswd)
+#   Plain-text password to be encrypted by htpasswd
 #   Default: false (either crypt_password or clear_password must be set)
 #
 #
 # == Usage
 #
+# If you have a plain-text password and you would like it be to be encrypted and added to the htpasswd file
 # Set clear password='mypass' to user 'my_user' on default htpasswd file:
 # apache::htpasswd { 'myuser':
 #   clear_password => 'my_pass',
 # }
 #
+# If you have a password which has already been encrypted, which you would like to add to the htpasswd file
 # Set crypted password to user 'my_user' on custom htpasswd file:
 # apache::htpasswd { 'myuser':
 #   crypt_password => 'B5dPQYYjf.jjA',
 #   htpasswd_file  => '/etc/httpd/users.passwd',
+# }
+#
+#
+# If you have a plain-text password and you would like it be added to the htpasswd file as is without encryption
+# Set clear password='mypass' to user 'my_user' on default htpasswd file:
+# apache::htpasswd { 'myuser':
+#   crypt_password => 'my_pass',
 # }
 #
 # Set the same user in different files 
@@ -78,14 +87,14 @@ define apache::htpasswd (
       }
 
       if $crypt_password {
-        exec { "test -f ${real_htpasswd_file} || OPT='-c'; htpasswd -b \${OPT} ${real_htpasswd_file} ${username} '${crypt_password}'":
+        exec { "test -f ${real_htpasswd_file} || OPT='-c'; htpasswd -bp \${OPT} ${real_htpasswd_file} ${username} '${crypt_password}'":
           unless => "grep -q '${username}:${crypt_password}' ${real_htpasswd_file}",
           path   => '/bin:/sbin:/usr/bin:/usr/sbin',
         }
       }
 
       if $clear_password {
-        exec { "test -f ${real_htpasswd_file} || OPT='-c'; htpasswd -bp \$OPT ${real_htpasswd_file} ${username} ${clear_password}":
+        exec { "test -f ${real_htpasswd_file} || OPT='-c'; htpasswd -b \$OPT ${real_htpasswd_file} ${username} ${clear_password}":
           unless => "egrep '^${username}:' ${real_htpasswd_file} && grep ${username}:\$(mkpasswd -S \$(egrep '^${username}:' ${real_htpasswd_file} |cut -d : -f 2 |cut -c-2) ${clear_password}) ${real_htpasswd_file}",
           path   => '/bin:/sbin:/usr/bin:/usr/sbin',
         }
