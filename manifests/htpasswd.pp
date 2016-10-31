@@ -19,11 +19,11 @@
 #   Default: $name
 #
 # [*crypt_password*]
-#   Crypted password (as it appears in htpasswd)
+#   Plain password which will be stored encrypted in the htpasswd file
 #   Default: false (either crypt_password or clear_password must be set)
 #
 # [*clear_password*]
-#   Clear password (as it appears in htpasswd)
+#   Clear password which will be stored 'as is' in the htpasswd file
 #   Default: false (either crypt_password or clear_password must be set)
 #
 #
@@ -85,8 +85,8 @@ define apache::htpasswd (
       }
 
       if $clear_password {
-        exec { "test -f ${real_htpasswd_file} || OPT='-c'; htpasswd -bp \$OPT ${real_htpasswd_file} ${username} ${clear_password}":
-          unless => "egrep '^${username}:' ${real_htpasswd_file} && grep ${username}:\$(mkpasswd -S \$(egrep '^${username}:' ${real_htpasswd_file} |cut -d : -f 2 |cut -c-2) ${clear_password}) ${real_htpasswd_file}",
+        exec { "test -f ${real_htpasswd_file} || OPT='-c'; htpasswd -bp \$OPT ${real_htpasswd_file} ${username} '${clear_password}'":
+          unless => "egrep '^${username}:' ${real_htpasswd_file} && grep ${username}:\$(mkpasswd -S \$(egrep '^${username}:' ${real_htpasswd_file} |cut -d : -f 2 |cut -c-2) '${clear_password}') ${real_htpasswd_file}",
           path   => '/bin:/sbin:/usr/bin:/usr/sbin',
         }
       }
