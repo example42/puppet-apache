@@ -3,6 +3,9 @@
 <VirtualHost <%= @ip_addr %>:<%= @port %>>
     ServerAdmin <%= @server_admin_email ||= 'webmaster@localhost' %>
     DocumentRoot <%= @real_docroot %>
+    <% if virtualdocroot != '' %>
+        VirtualDocumentRoot <%= virtualdocroot %>
+    <% end %>
 <% if @server_name_value != false -%>
     ServerName <%= @server_name_value %>
 <% end -%>
