@@ -92,14 +92,14 @@ define apache::virtualhost (
   # Some OS specific settings:
   # On Debian/Ubuntu manages sites-enabled
   case $::operatingsystem {
-    ubuntu,debian,mint: {
+    'ubuntu','debian','mint': {
       file { "ApacheVirtualHostEnabled_${name}":
         ensure  => $ensure_link,
         path    => "${apache::config_dir}/sites-enabled/${real_filename}",
         require => Package['apache'],
       }
     }
-    redhat,centos,scientific,fedora: {
+    'redhat','centos','scientific','fedora': {
       include apache::redhat
     }
     default: { }

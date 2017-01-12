@@ -58,14 +58,14 @@ class apache::params {
   $config_dir = $::operatingsystem ? {
     /(?i:Ubuntu|Debian|Mint)/ => '/etc/apache2',
     /(?i:SLES|OpenSuSE)/      => '/etc/apache2',
-    freebsd                   => '/usr/local/etc/apache20',
+    'freebsd'                 => '/usr/local/etc/apache20',
     default                   => '/etc/httpd',
   }
 
   $config_file = $::operatingsystem ? {
     /(?i:Ubuntu|Debian|Mint)/ => '/etc/apache2/apache2.conf',
     /(?i:SLES|OpenSuSE)/      => '/etc/apache2/httpd.conf',
-    freebsd                   => '/usr/local/etc/apache20/httpd.conf',
+    'freebsd'                 => '/usr/local/etc/apache20/httpd.conf',
     default                   => '/etc/httpd/conf/httpd.conf',
   }
 
@@ -78,8 +78,8 @@ class apache::params {
   }
 
   $config_file_group = $::operatingsystem ? {
-    freebsd => 'wheel',
-    default => 'root',
+    'freebsd' => 'wheel',
+    default   => 'root',
   }
 
   $config_file_init = $::operatingsystem ? {

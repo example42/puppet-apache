@@ -164,9 +164,9 @@ define apache::vhost (
 ) {
 
   $ensure = $enable ? {
-        true => present,
-        false => present,
-        absent => absent,
+        true     => present,
+        false    => present,
+        'absent' => absent,
   }
   $bool_docroot_create               = any2bool($docroot_create)
   $bool_passenger                    = any2bool($passenger)
@@ -243,11 +243,11 @@ define apache::vhost (
   # Some OS specific settings:
   # On Debian/Ubuntu manages sites-enabled
   case $::operatingsystem {
-    ubuntu,debian,mint: {
+    'ubuntu','debian','mint': {
       $file_vhost_link_ensure = $enable ? {
-        true    => $config_file_path,
-        false   => absent,
-        absent  => absent,
+        true      => $config_file_path,
+        false     => absent,
+        'absent'  => absent,
       }
       file { "ApacheVHostEnabled_${name}":
         ensure  => $file_vhost_link_ensure,
@@ -256,7 +256,7 @@ define apache::vhost (
         notify  => $apache::manage_service_autorestart,
       }
     }
-    redhat,centos,scientific,fedora: {
+    'redhat','centos','scientific','fedora': {
       include apache::redhat
     }
     default: { }

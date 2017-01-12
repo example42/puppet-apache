@@ -89,7 +89,7 @@ define apache::module (
     }
 
     file { "ApacheModule_${name}_conf":
-      ensure  => present ,
+      ensure  => file,
       path    => $module_conf_path,
       mode    => $apache::config_file_mode,
       owner   => $apache::config_file_owner,

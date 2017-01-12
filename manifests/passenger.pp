@@ -7,7 +7,7 @@ class apache::passenger {
   include apache
 
   case $::operatingsystem {
-    ubuntu,debian,mint: {
+    'ubuntu','debian','mint': {
       package { 'libapache2-mod-passenger':
         ensure => present;
       }
@@ -23,7 +23,7 @@ class apache::passenger {
       }
     }
 
-    centos,redhat,scientific,fedora: {
+    'centos','redhat','scientific','fedora': {
       $osver = split($::operatingsystemrelease, '[.]')
 
       case $osver[0] {
