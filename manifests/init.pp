@@ -412,6 +412,7 @@ class apache (
   package { 'apache':
     ensure => $apache::manage_package,
     name   => $apache::package,
+    notify  => $apache::manage_service_autorestart,
   }
 
   service { 'apache':
