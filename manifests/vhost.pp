@@ -257,7 +257,15 @@ define apache::vhost (
       }
     }
     redhat,centos,scientific,fedora: {
-      include apache::redhat
+      if $port == '80' {
+        include apache::redhat
+      } else {
+        if ! defined(Apache::Listen[$port]) {
+          apache::listen { $port:
+            namevirtualhost => $ip_addr,
+          }
+        }
+      }
     }
     default: { }
   }
